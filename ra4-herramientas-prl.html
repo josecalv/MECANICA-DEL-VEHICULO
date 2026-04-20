@@ -1,0 +1,457 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aula Taller · RA4 Herramientas, PRL y Medioambiente</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root,[data-theme="light"]{--bg:#f7f6f2;--surface:#f9f8f5;--surface2:#fbfbf9;--surface3:#f0ece6;--border:#d4d1ca;--text:#28251d;--muted:#6f6d67;--inv:#faf8f5;--primary:#01696f;--success:#437a22;--danger:#b13b82;--gold:#d19900;--radius:18px;--shadow:0 18px 40px rgba(35,28,18,.09);--font-display:'Instrument Serif', Georgia, serif;--font-body:'Inter', system-ui, sans-serif}
+    [data-theme="dark"]{--bg:#171614;--surface:#1c1b19;--surface2:#201f1d;--surface3:#262422;--border:#393836;--text:#e2dfd9;--muted:#a5a19b;--inv:#191816;--primary:#4f98a3;--success:#76b14c;--danger:#db77b2;--gold:#e4b843;--shadow:0 18px 40px rgba(0,0,0,.35)}
+    *{box-sizing:border-box;margin:0;padding:0} body{font-family:var(--font-body);background:var(--bg);color:var(--text);line-height:1.6} .wrap{max-width:1260px;margin:0 auto;padding:0 16px}
+    header{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--bg) 88%, transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+    .topbar{display:flex;justify-content:space-between;gap:16px;align-items:center;padding:14px 0}.brand{display:flex;gap:12px;align-items:center}.logo{width:46px;height:46px;border-radius:14px;background:linear-gradient(145deg,var(--surface3),var(--surface2));display:grid;place-items:center;border:1px solid var(--border)}
+    .logo svg{width:25px;height:25px;color:var(--primary)} .brand small{display:block;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;font-size:12px}.brand strong{font-size:15px}
+    .nav{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.nav a,.theme-btn,.btn,.chip,.pill{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:.75rem 1rem;border-radius:999px;border:1px solid var(--border);background:var(--surface);color:var(--text);text-decoration:none}
+    .btn-primary{background:var(--primary);border-color:var(--primary);color:var(--inv)} .btn-secondary{background:var(--surface2)}
+    .hero{padding:42px 0 24px;position:relative;overflow:hidden}.hero::after{content:'';position:absolute;left:50%;top:56%;transform:translate(-50%,-50%);width:min(30vw,360px);height:min(30vw,360px);pointer-events:none;opacity:.12;background-repeat:no-repeat;background-size:contain;background-position:center;background-image:url('https://pngimg.com/uploads/engine/engine_PNG23.png');filter:grayscale(1) contrast(.9) brightness(1.08)}
+    .hero-grid{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(320px,.88fr);gap:32px;align-items:start;position:relative;z-index:1}.eyebrow{display:inline-flex;align-items:center;gap:8px;padding:.4rem .75rem;border-radius:999px;background:color-mix(in srgb,var(--primary) 14%, var(--surface));color:var(--primary);font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.05em}
+    h1{font-family:var(--font-display);font-size:clamp(2.4rem,4vw,4.4rem);line-height:1.02;margin:14px 0 10px} h2{font-size:clamp(1.6rem,2vw,2.3rem);line-height:1.08} h3{font-size:1.15rem;line-height:1.15}
+    .lead{font-size:1.08rem;color:var(--muted);max-width:66ch}.panel,.quiz-box,.status-box,.report-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px}
+    .hero-side{display:grid;gap:14px}.hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.stat{padding:16px;border-radius:16px;background:var(--surface2);border:1px solid var(--border)}
+    .section{padding:24px 0}.section-head{display:flex;justify-content:space-between;align-items:end;gap:16px;margin-bottom:16px}.muted{color:var(--muted)}
+    .cards2{display:grid;gap:14px;grid-template-columns:repeat(2,1fr)}
+    .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}.chip,.pill{min-height:auto;padding:.45rem .75rem;font-size:12px;background:var(--surface3)} .badgebox{padding:16px;border-radius:16px;background:var(--surface2);border:1px solid var(--border)} .badge-lock{opacity:.55;filter:grayscale(.25)}
+    .quiz-layout{display:grid;grid-template-columns:.8fr 1.2fr;gap:18px;align-items:start}.status-box{position:sticky;top:96px}.progress{height:14px;border-radius:999px;background:var(--surface3);border:1px solid var(--border);overflow:hidden;margin:10px 0}.bar{height:100%;width:0;background:linear-gradient(90deg,var(--primary),var(--gold));transition:width .3s ease}.meta{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0}
+    .question-title{margin:.4rem 0 .8rem}.options{display:grid;gap:10px;margin-top:14px}.option{padding:14px 16px;border-radius:16px;border:1px solid var(--border);background:var(--surface2);text-align:left;min-height:54px;color:var(--text)}
+    .feedback,.reward,.review-box,.save-status,.gate-note{display:none;margin-top:14px;padding:14px;border-radius:16px;background:var(--surface3);border:1px solid var(--border)} .ok{display:block;background:color-mix(in srgb,var(--success) 14%, var(--surface));border:1px solid color-mix(in srgb,var(--success) 38%, var(--border))}.bad{display:block;background:color-mix(in srgb,var(--danger) 12%, var(--surface));border:1px solid color-mix(in srgb,var(--danger) 32%, var(--border))}.gate-note{display:block;background:color-mix(in srgb,var(--gold) 14%, var(--surface));border:1px solid color-mix(in srgb,var(--gold) 35%, var(--border))}
+    .student-form{display:grid;grid-template-columns:1fr auto;gap:10px;margin-top:12px}.student-form input{min-height:44px;padding:.8rem 1rem;border-radius:14px;border:1px solid var(--border);background:var(--surface2);color:var(--text)} .save-box{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}.save-status{display:block;font-size:14px}
+    .table{width:100%;border-collapse:collapse;margin-top:10px}.table th,.table td{text-align:left;padding:10px;border-bottom:1px solid var(--border)} footer{padding:36px 0 60px;color:var(--muted)}
+    @media (max-width:1080px){.hero-grid,.quiz-layout,.cards2{grid-template-columns:1fr 1fr}.status-box{position:static}.hero::after{left:50%;top:60%;transform:translate(-50%,-50%);width:min(34vw,300px);height:min(34vw,300px);opacity:.095}} @media (max-width:760px){.hero-grid,.quiz-layout,.cards2,.hero-stats,.student-form{grid-template-columns:1fr}.topbar{flex-direction:column;align-items:flex-start}.hero::after{left:50%;top:78%;transform:translate(-50%,-50%);width:min(52vw,220px);height:min(52vw,220px);opacity:.075}}
+  </style>
+</head>
+<body>
+
+<!-- CORRECCIÓN: header con textos completos y navegación correcta -->
+<header><div class="wrap topbar"><div class="brand"><div class="logo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div><small>RA4 Herramientas, PRL y Medioambiente</small><strong>Aula Taller</strong></div></div><nav class="nav" aria-label="Principal"><a href="#ud1">UD1</a><a href="#final">Final RA4</a><a href="#informe">Informe</a><button class="theme-btn" data-theme-toggle aria-label="Cambiar tema">◐</button></nav></div></header>
+
+<main class="wrap">
+<section class="hero"><div class="hero-grid"><div><span class="eyebrow">RA4</span><h1>Aula Taller</h1><p class="lead">RA4: Realiza las tareas en condiciones de seguridad, identificando riesgos para la salud y el medioambiente, utilizando los equipos de protección individual y aplicando el procedimiento de recogida de residuos adecuado.</p><div class="chips"><span class="chip">40 preguntas en banco</span><span class="chip">Se extraen 20</span><span class="chip">Sin repetir dentro del intento</span><span class="chip">Guardado local</span></div><div class="student-form"><input id="student-name" type="text" placeholder="Escribe el nombre del alumno"><button class="btn btn-primary" id="save-student">Guardar nombre</button></div><div class="save-box"><div class="save-status" id="save-status">Sin perfil cargado</div><button class="btn btn-secondary" id="resume-student">Cargar progreso</button><button class="btn btn-secondary" id="clear-student">Reiniciar perfil</button></div></div><aside class="panel hero-side"><h3>Panel del alumno</h3><div class="hero-stats"><div class="stat"><strong id="global-points">0</strong><br><span class="muted">Puntos</span></div><div class="stat"><strong id="global-stars">0</strong><br><span class="muted">Estrellas</span></div><div class="stat"><strong id="global-streak">0</strong><br><span class="muted">Mejor racha</span></div><!-- CORRECCIÓN: 0/1 porque unitIds tiene 1 UD --><div class="stat"><strong id="global-units">0/1</strong><br><span class="muted">UD completadas</span></div><div class="stat"><strong id="global-saves">0</strong><br><span class="muted">Guardados</span></div></div></aside></div></section>
+
+<!-- CORRECCIÓN: cards2 para 2 insignias; badge-ud1 con badge-lock (se desbloquea al superarse) -->
+<section class="section"><div class="section-head"><div><h2>Insignias del recorrido</h2><p class="muted">Banco amplio con preguntas diferentes en cada intento.</p></div></div><div class="cards2"><div class="badgebox badge-lock" id="badge-ud1"><h3>🛠️ UD1</h3><p>Herramientas y PRL</p></div><div class="badgebox badge-lock" id="badge-final"><h3>🏁 Final</h3><p>Prueba final RA4</p></div></div></section>
+
+<div id="quizzes"></div>
+
+<!-- CORRECCIÓN: informe dice RA4 -->
+<section class="section" id="informe"><div class="section-head"><div><h2>Informe final del alumno</h2><p class="muted">Resumen por unidad, intentos y evolución del RA4.</p></div></div><div class="report-box" id="report-box" style="display:block"><p><strong>Alumno:</strong> <span id="report-name">Sin nombre</span></p><table class="table"><thead><tr><th>Bloque</th><th>Mejor resultado</th><th>Intentos</th><th>Último</th><th>Nivel</th></tr></thead><tbody id="report-table"></tbody></table><div class="review-box" id="global-diagnosis" style="display:block;margin-top:16px"><strong>Diagnóstico global:</strong> Cuando el alumno complete pruebas, aquí aparecerá una valoración resumida.</div></div></section>
+</main>
+<footer class="wrap"><p>Aula Taller · RA4 Herramientas, PRL y Medioambiente.</p></footer>
+
+<script>
+// ── Tema ─────────────────────────────────────────────────────────────────────
+(function(){const root=document.documentElement,btn=document.querySelector('[data-theme-toggle]');let theme=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';root.setAttribute('data-theme',theme);btn.addEventListener('click',()=>{theme=theme==='dark'?'light':'dark';root.setAttribute('data-theme',theme);});})();
+
+// ── Configuración ─────────────────────────────────────────────────────────────
+const storagePrefix='aula-taller-ra4-v1';
+const maxAttemptsPerBlock=3;
+const student={name:'Sin nombre'};
+const globalState={points:0,stars:0,bestStreak:0,completedUnits:new Set(),results:{},saveCount:0};
+const unitIds=['ud1'];
+const unlockOrder=['ud1','final'];
+const unlockRules={
+  ud1:null,
+  final:{prev:'ud1',score:7,label:'Necesitas al menos 70% en UD1 o acertar todas las básicas.'}
+};
+const unitMeta={
+  ud1:['Evaluación UD1 · Herramientas, PRL y Medioambiente','40 preguntas en banco; se extraen 20 con dificultad gradual.'],
+  // CORRECCIÓN: 10 preguntas (no 20)
+  final:['Evaluación final del RA4','10 preguntas finales progresivas tras completar la unidad de seguridad.']
+};
+
+// ── Perfil y estado ───────────────────────────────────────────────────────────
+// CORRECCIÓN: defaultResult distingue total según bloque
+function defaultResult(total=20){return {bestScore:0,lastScore:0,total,attempts:0,stars:0,basicCorrect:0,basicTotal:3,unlocked:false};}
+function profileKey(name){return `${storagePrefix}::${(name||'').trim().toLowerCase()}`;}
+function hydrateResults(){
+  // CORRECCIÓN: final usa total=10
+  if(!globalState.results['ud1']) globalState.results['ud1']=defaultResult(20);
+  globalState.results['ud1']={...defaultResult(20),...globalState.results['ud1']};
+  if(!globalState.results['final']) globalState.results['final']=defaultResult(10);
+  globalState.results['final']={...defaultResult(10),...globalState.results['final']};
+}
+function serializableState(){return {studentName:student.name,points:globalState.points,stars:globalState.stars,bestStreak:globalState.bestStreak,completedUnits:[...globalState.completedUnits],results:globalState.results,saveCount:globalState.saveCount};}
+function saveProfile(){if(!student.name||student.name==='Sin nombre') return; localStorage.setItem(profileKey(student.name),JSON.stringify(serializableState())); globalState.saveCount+=1; document.getElementById('save-status').textContent=`Progreso guardado para ${student.name}`; document.getElementById('global-saves').textContent=globalState.saveCount;}
+function loadProfileByName(name){const raw=localStorage.getItem(profileKey(name)); if(!raw) return false; const data=JSON.parse(raw); student.name=data.studentName||name||'Sin nombre'; globalState.points=data.points||0; globalState.stars=data.stars||0; globalState.bestStreak=data.bestStreak||0; globalState.completedUnits=new Set(data.completedUnits||[]); globalState.results=data.results||{}; globalState.saveCount=data.saveCount||0; hydrateResults(); document.getElementById('student-name').value=student.name; document.getElementById('report-name').textContent=student.name; document.getElementById('save-status').textContent=`Perfil cargado: ${student.name}`; document.getElementById('global-saves').textContent=globalState.saveCount; return true;}
+function resetProfile(){if(student.name&&student.name!=='Sin nombre') localStorage.removeItem(profileKey(student.name)); student.name='Sin nombre'; globalState.points=0; globalState.stars=0; globalState.bestStreak=0; globalState.completedUnits=new Set(); globalState.results={}; globalState.saveCount=0; hydrateResults(); document.getElementById('student-name').value=''; document.getElementById('report-name').textContent='Sin nombre'; document.getElementById('save-status').textContent='Perfil reiniciado'; document.getElementById('global-saves').textContent='0';}
+
+document.getElementById('save-student').addEventListener('click',()=>{const v=document.getElementById('student-name').value.trim(); student.name=v||'Sin nombre'; document.getElementById('report-name').textContent=student.name; hydrateResults(); saveProfile(); updateGlobalPanel();});
+document.getElementById('resume-student').addEventListener('click',()=>{const v=document.getElementById('student-name').value.trim(); if(!v){document.getElementById('save-status').textContent='Escribe el nombre para cargar el progreso'; return;} if(!loadProfileByName(v)){document.getElementById('save-status').textContent='No existe progreso guardado con ese nombre';} updateGlobalPanel(); refreshAll();});
+document.getElementById('clear-student').addEventListener('click',()=>{resetProfile(); updateGlobalPanel(); refreshAll();});
+
+// ── Utilidades ────────────────────────────────────────────────────────────────
+function shuffle(arr){const a=[...arr]; for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a;}
+function buildSelection(pool){const easy=shuffle(pool.filter(q=>q.band==='b')).slice(0,6); const mid=shuffle(pool.filter(q=>q.band==='m')).slice(0,8); const hard=shuffle(pool.filter(q=>q.band==='a')).slice(0,6); return shuffle([...easy,...mid,...hard]);}
+
+
+// ── Mensajes de repaso ────────────────────────────────────────────────────────
+// CORRECCIÓN: añadida clave 'integracion' en ud1
+const reviewMessages={
+  ud1:{
+    herramientas:'Repasa herramientas de mano, utillaje y grandes equipos.',
+    seguridad:'Repasa normas de seguridad, EPI y riesgos en el taller.',
+    residuos:'Repasa gestión ambiental, reciclaje, residuos y orden-limpieza.',
+    integracion:'Repasa la relación entre seguridad, herramientas y medioambiente en el trabajo diario.'
+  },
+  final:{
+    integracion:'Relaciona seguridad personal, herramientas y protección ambiental.',
+    seguridad:'Refuerza EPI, riesgos y uso seguro de máquinas.',
+    residuos:'Repasa residuos, contenedores específicos y preparación de líquidos.',
+    herramientas:'Repasa el mantenimiento y uso correcto de herramientas y útiles.'
+  }
+};
+
+// ── Banco de preguntas ────────────────────────────────────────────────────────
+const questionPools={
+
+// ════════════════════════════════════════════════════════════════════════════
+ud1:[
+  // BÁSICO (8 preguntas)
+  {band:'b',tag:'herramientas',level:'Básico',points:10,q:'¿Por qué es importante usar la herramienta adecuada?',options:['Para trabajar con seguridad y evitar daños en piezas y equipos','Solo para terminar antes el trabajo','Para no tener que usar EPI','Para evitar leer las instrucciones'],correct:0,explanation:'Elegir bien la herramienta reduce riesgos y evita dañar elementos del vehículo.'},
+  {band:'b',tag:'herramientas',level:'Básico',points:10,q:'Una llave fija o combinada se utiliza principalmente para:',options:['Aflojar o apretar tuercas y tornillos de hexágono','Cortar chapas','Medir presiones','Limpiar el puesto de trabajo'],correct:0,explanation:'Las llaves se usan para aflojar o apretar tornillería adecuada.'},
+  {band:'b',tag:'herramientas',level:'Básico',points:10,q:'Las herramientas de golpeo, como martillos, deben usarse:',options:['Solo cuando son necesarias y con las cabezas en buen estado','Siempre que se quiera ir más rápido','Aunque tengan el mango flojo','Aunque presenten grietas'],correct:0,explanation:'Un martillo defectuoso incrementa el riesgo de accidente.'},
+  {band:'b',tag:'seguridad',level:'Básico',points:10,q:'Las normas de seguridad en taller sirven para:',options:['Prevenir accidentes personales y daños materiales','Ir más rápido sin control','Evitar usar EPI','No leer las instrucciones'],correct:0,explanation:'La seguridad pretende evitar accidentes y proteger personas e instalaciones.'},
+  {band:'b',tag:'seguridad',level:'Básico',points:10,q:'Los equipos de protección individual (EPI) son:',options:['Elementos destinados a proteger al trabajador','Herramientas de corte','Útiles para limpiar el taller','Decoración del uniforme'],correct:0,explanation:'Los EPI protegen al trabajador frente a riesgos específicos.'},
+  {band:'b',tag:'seguridad',level:'Básico',points:10,q:'¿Cuál de los siguientes es un EPI habitual en taller?',options:['Gafas de protección','Llave fija','Gato hidráulico','Elevador de columnas'],correct:0,explanation:'Las gafas de protección forman parte de los EPI para los ojos.'},
+  {band:'b',tag:'residuos',level:'Básico',points:10,q:'Un aceite usado de motor debe depositarse:',options:['En su contenedor específico de residuos peligrosos','En cualquier cubo de basura','En el desagüe del taller','En el contenedor de papel'],correct:0,explanation:'Los aceites usados se consideran residuo peligroso y tienen contenedor específico.'},
+  {band:'b',tag:'residuos',level:'Básico',points:10,q:'Los trapos impregnados en aceite o combustible se deben:',options:['Recoger y depositar en el contenedor adecuado','Dejar sobre el banco de trabajo','Tirar al contenedor de envases de bebidas','Escurrir en el suelo'],correct:0,explanation:'Los trapos contaminados pueden incendiarse o contaminar si no se gestionan bien.'},
+  // MEDIO (16 preguntas)
+  {band:'m',tag:'seguridad',level:'Medio',points:15,q:'Mantener el área de trabajo limpia y ordenada sirve para:',options:['Reducir riesgos de caídas y accidentes','Hacer el taller más ruidoso','Evitar usar herramientas','Trabajar sin planificación'],correct:0,explanation:'El orden y la limpieza reducen riesgos y mejoran la seguridad.'},
+  {band:'m',tag:'herramientas',level:'Medio',points:15,q:'Una herramienta en mal estado (mango roto, cabeza agrietada):',options:['Debe retirarse o repararse antes de usarla','Se puede usar si se tiene cuidado','Es válida solo para trabajos rápidos','Se guarda para emergencias'],correct:0,explanation:'Nunca debe usarse una herramienta dañada porque aumenta el riesgo de accidente.'},
+  {band:'m',tag:'herramientas',level:'Medio',points:15,q:'Al seleccionar un útil específico (por ejemplo, extractor), es importante:',options:['Comprobar que es adecuado a la pieza y al trabajo','Usar el primero que encontremos','No mirar su capacidad','Ignorar las instrucciones del fabricante'],correct:0,explanation:'El útil debe ser adecuado al tamaño, fuerza y aplicación previstas.'},
+  {band:'m',tag:'seguridad',level:'Medio',points:15,q:'Las hojas de seguridad de productos (fichas de datos de seguridad) sirven para:',options:['Conocer riesgos y medidas de protección','Decorar el taller','Sustituir a los EPI','Evitar la formación'],correct:0,explanation:'Las fichas de seguridad informan de riesgos y medidas preventivas.'},
+  {band:'m',tag:'seguridad',level:'Medio',points:15,q:'Un riesgo típico al trabajar con elevadores de vehículos es:',options:['Caída del vehículo por mal apoyo','Mayor consumo de combustible','Menor iluminación del taller','Ruido del motor'],correct:0,explanation:'Un apoyo incorrecto puede provocar la caída del vehículo del elevador.'},
+  {band:'m',tag:'seguridad',level:'Medio',points:15,q:'Usar gafas de protección tiene como objetivo:',options:['Proteger los ojos frente a partículas y salpicaduras','Aumentar la velocidad del trabajo','Evitar tener que limpiar herramientas','Reducir el ruido del taller'],correct:0,explanation:'Las gafas evitan lesiones oculares por proyección de partículas o líquidos.'},
+  {band:'m',tag:'residuos',level:'Medio',points:15,q:'Los residuos líquidos (aceites, refrigerantes) se deben:',options:['Almacenar en recipientes adecuados y etiquetados','Verter al suelo y barrer','Mezclar con otros residuos sin control','Evaporar al aire libre'],correct:0,explanation:'Los líquidos deben conservarse en contenedores adecuados para su recogida.'},
+  {band:'m',tag:'residuos',level:'Medio',points:15,q:'El reciclaje de productos en el taller contribuye a:',options:['Reducir el impacto medioambiental','Aumentar el ruido','Empeorar la limpieza','Evitar la planificación'],correct:0,explanation:'Reciclar y gestionar bien los residuos reduce el impacto ambiental.'},
+  {band:'m',tag:'seguridad',level:'Medio',points:15,q:'Ante un derrame de aceite en el suelo del taller, lo correcto es:',options:['Señalizar, absorber y limpiar cuanto antes','Ignorarlo hasta el final del día','Taparlo con un cartón sin más','Echar agua para extenderlo'],correct:0,explanation:'Los derrames deben señalizarse y limpiarse para evitar resbalones.'},
+  {band:'m',tag:'herramientas',level:'Medio',points:15,q:'Las herramientas de corte (sierras, cuchillas) deben guardarse:',options:['Con protección y en lugar asignado','En cualquier rincón del banco','Sobre el suelo','Apoyadas con el filo al descubierto'],correct:0,explanation:'Las zonas de corte deben protegerse para evitar cortes accidentales.'},
+  {band:'m',tag:'seguridad',level:'Medio',points:15,q:'Un comportamiento seguro en el taller implica:',options:['Seguir normas, usar EPI y respetar las instrucciones','Actuar siempre con prisa','No comunicar incidencias','Ignorar las señales'],correct:0,explanation:'La seguridad requiere normas, EPI y comunicación de riesgos.'},
+  {band:'m',tag:'residuos',level:'Medio',points:15,q:'Las baterías usadas de vehículos se consideran:',options:['Residuos peligrosos que requieren gestión específica','Residuos orgánicos comunes','Residuos de papel y cartón','Residuos inertes sin riesgo'],correct:0,explanation:'Las baterías contienen sustancias peligrosas y requieren tratamiento especial.'},
+  {band:'m',tag:'herramientas',level:'Medio',points:15,q:'Antes de usar una herramienta eléctrica portátil conviene:',options:['Verificar su estado, cableado y protección','Probarla cerca de líquidos inflamables','Pasarla por agua','Golpearla para ver si funciona'],correct:0,explanation:'La revisión previa evita contactos eléctricos peligrosos y fallos.'},
+  {band:'m',tag:'seguridad',level:'Medio',points:15,q:'El uso de guantes de protección en el taller sirve para:',options:['Proteger las manos frente a cortes, abrasión y productos químicos','Aumentar la sensibilidad táctil siempre','Sustituir las gafas de seguridad','Solo mejorar el aspecto del trabajador'],correct:0,explanation:'Los guantes adecuados protegen frente a riesgos mecánicos y químicos.'},
+  {band:'m',tag:'residuos',level:'Medio',points:15,q:'Los filtros de aceite usados se deben gestionar como:',options:['Residuo peligroso con contenedor específico','Residuo de papel','Residuo orgánico','Residuo sin peligro'],correct:0,explanation:'Los filtros de aceite contienen residuos peligrosos y deben gestionarse así.'},
+  {band:'m',tag:'integracion',level:'Medio',points:15,q:'La identificación de riesgos en el taller debe hacerse:',options:['Antes, durante y después de las tareas','Solo al inicio del curso','Solo los viernes','Nunca, para no perder tiempo'],correct:0,explanation:'La observación de riesgos debe ser continua a lo largo del trabajo.'},
+  // ALTO (16 preguntas)
+  {band:'a',tag:'seguridad',level:'Alto',points:20,q:'Si observas que un compañero trabaja sin EPI en una tarea de riesgo, lo correcto es:',options:['Informar y corregir la situación de forma adecuada','Ignorarlo porque es su responsabilidad','Reír la situación','Imitarle para no quedar mal'],correct:0,explanation:'La seguridad es responsabilidad compartida y las situaciones de riesgo deben corregirse.'},
+  {band:'a',tag:'integracion',level:'Alto',points:20,q:'Trabajar con orden, limpieza y método en el RA4 es importante porque:',options:['Condiciona la seguridad personal y la imagen profesional','Solo ayuda a aprobar exámenes escritos','Sustituye a los EPI','Evita tener que planificar'],correct:0,explanation:'El orden y la limpieza son parte de la profesionalidad y de la prevención.'},
+  {band:'a',tag:'herramientas',level:'Alto',points:20,q:'Un plan de mantenimiento de primer nivel de herramientas incluye:',options:['Limpieza, revisión periódica y conservación adecuada','Usarlas hasta que se rompan','No revisar su estado','Guardarlas siempre sucias'],correct:0,explanation:'Las herramientas deben mantenerse en buen estado para trabajar con seguridad.'},
+  {band:'a',tag:'residuos',level:'Alto',points:20,q:'Según los criterios del RA4, una buena gestión de residuos implica:',options:['Identificar, clasificar y prepararlos para recogida autorizada','Mezclar todos en un mismo contenedor','Verter líquidos al desagüe','Guardar residuos sin identificar'],correct:0,explanation:'La gestión correcta exige identificar, separar y preparar residuos para gestor autorizado.'},
+  {band:'a',tag:'seguridad',level:'Alto',points:20,q:'Los dispositivos de seguridad activa en máquinas (resguardos, pulsadores de emergencia) deben:',options:['Mantenerse operativos y no anularse','Desmontarse para ir más rápido','Bloquearse para no molestar','Ignorarse en el uso diario'],correct:0,explanation:'Los dispositivos de seguridad nunca deben anularse.'},
+  {band:'a',tag:'herramientas',level:'Alto',points:20,q:'Elegir siempre la herramienta más adecuada para cada trabajo permite:',options:['Reducir riesgos y mejorar la calidad de la intervención','Prescindir de formación','No usar procedimientos','Eliminar la necesidad de supervisión'],correct:0,explanation:'La herramienta adecuada mejora seguridad, eficacia y calidad de trabajo.'},
+  {band:'a',tag:'residuos',level:'Alto',points:20,q:'Preparar convenientemente los residuos líquidos (aceites, refrigerantes) significa:',options:['Almacenarlos en envases cerrados y etiquetados para su recogida','Dejarlos en cubos abiertos','Verterlos a la red de saneamiento','Dejarlos evaporar'],correct:0,explanation:'Los residuos líquidos deben quedar listos para retirada por gestor autorizado.'},
+  {band:'a',tag:'seguridad',level:'Alto',points:20,q:'La identificación de riesgos en el taller debe hacerse:',options:['Antes, durante y después de las tareas','Solo al final del curso','Solo al inicio de la jornada','Nunca, para no perder tiempo'],correct:0,explanation:'La detección de riesgos es continua a lo largo del trabajo.'},
+  {band:'a',tag:'herramientas',level:'Alto',points:20,q:'Un mal uso de la maquinaria de elevación puede provocar:',options:['Accidentes graves con caída de vehículos o personas','Solo más ruido','Menos consumo de combustible','Mejor iluminación'],correct:0,explanation:'La manipulación incorrecta de elevadores es una fuente de riesgo grave.'},
+  {band:'a',tag:'residuos',level:'Alto',points:20,q:'La protección del medioambiente en el RA4 se concreta en:',options:['Evitar vertidos, gestionar residuos y reciclar cuando sea posible','Lavar vehículos con agua en exceso','Mezclar todos los residuos','No separar materiales'],correct:0,explanation:'La protección ambiental exige controlar vertidos y gestionar bien los residuos.'},
+  {band:'a',tag:'seguridad',level:'Alto',points:20,q:'Mantener el área de trabajo con el grado apropiado de orden y limpieza:',options:['Disminuye riesgos y facilita la intervención profesional','Solo influye en la estética','No tiene relación con la seguridad','Sustituye la necesidad de EPI'],correct:0,explanation:'Orden y limpieza mejoran seguridad y calidad del trabajo.'},
+  {band:'a',tag:'integracion',level:'Alto',points:20,q:'Aprobar el RA4 es importante porque:',options:['Es requisito para realizar las prácticas en empresas y garantiza un mínimo de seguridad','Solo sirve para subir nota en teoría','Solo tiene valor estético','Se puede ignorar en la práctica'],correct:0,explanation:'El RA4 se relaciona con la seguridad real en entornos de trabajo y con las prácticas.'},
+  {band:'a',tag:'seguridad',level:'Alto',points:20,q:'Ante el manejo de productos químicos en el taller, lo más importante es:',options:['Conocer las fichas de seguridad y usar el EPI adecuado','No informar a compañeros','Usarlos sin guantes ni gafas','Mezclarlos para mayor eficacia'],correct:0,explanation:'Las fichas de seguridad y los EPI son imprescindibles al manipular productos químicos.'},
+  {band:'a',tag:'residuos',level:'Alto',points:20,q:'Si se produce un derrame accidental de líquido de frenos, se debe:',options:['Absorber con material específico y gestionar como residuo peligroso','Limpiar con agua y tirar por el desagüe','Cubrir con tierra y no avisar','Mezclar con aceite usado para reducir volumen'],correct:0,explanation:'Los líquidos de frenos son corrosivos y deben gestionarse como residuo peligroso.'},
+  {band:'a',tag:'herramientas',level:'Alto',points:20,q:'Al finalizar una intervención con herramientas, la actuación correcta es:',options:['Limpiar, revisar y devolver cada herramienta a su lugar asignado','Dejarlas donde se usaron para la próxima vez','Apilarlas en el banco sin orden','Guardarlas sucias para no perder tiempo'],correct:0,explanation:'El cuidado y la organización de herramientas forma parte del trabajo profesional.'},
+  {band:'a',tag:'integracion',level:'Alto',points:20,q:'La relación entre PRL, uso de herramientas y gestión de residuos es que los tres:',options:['Forman parte del trabajo profesional y seguro en el taller','Son materias independientes sin conexión','Solo se aplican en talleres grandes','No afectan al trabajo diario del técnico'],correct:0,explanation:'Seguridad, herramientas y residuos son dimensiones integradas del trabajo profesional en taller.'}
+],
+
+// ════════════════════════════════════════════════════════════════════════════
+// PRUEBA FINAL — 10 preguntas progresivas (nivel 1→10)
+// CORRECCIÓN: reducida de 20 a 10 preguntas, seleccionando las más representativas
+final:[
+  {band:'b',tag:'integracion',level:'Nivel 1',points:10,q:'El RA4 se centra principalmente en:',options:['Seguridad, salud laboral y medioambiente en el taller','Refrigeración y engrase del motor','Transmisión y frenos','Electricidad del vehículo'],correct:0,explanation:'El RA4 trata sobre seguridad, riesgos, EPI y gestión de residuos.'},
+  {band:'b',tag:'seguridad',level:'Nivel 2',points:10,q:'¿Qué es un equipo de protección individual (EPI)?',options:['Un elemento destinado a proteger al trabajador frente a riesgos','Una herramienta de corte','Un tipo de lubricante','Un recambio del motor'],correct:0,explanation:'El EPI protege al trabajador frente a riesgos concretos.'},
+  {band:'b',tag:'residuos',level:'Nivel 3',points:10,q:'Un aceite usado de motor debe gestionarse como:',options:['Residuo peligroso con contenedor específico','Residuo orgánico común','Residuo de papel y cartón','Residuo sin importancia'],correct:0,explanation:'Los aceites usados son residuos peligrosos y tienen contenedor específico.'},
+  {band:'m',tag:'herramientas',level:'Nivel 4',points:15,q:'Una herramienta en mal estado (mango roto, cabeza agrietada) debe:',options:['Retirarse o repararse antes de usarla','Usarse si se tiene cuidado','Guardarse para emergencias','Prestarse a otro compañero'],correct:0,explanation:'No debe usarse una herramienta dañada porque aumenta el riesgo de accidente.'},
+  {band:'m',tag:'seguridad',level:'Nivel 5',points:15,q:'Al trabajar con elevadores de vehículos, un riesgo típico es:',options:['Caída del vehículo por mal apoyo','Mayor consumo de combustible','Menor iluminación','Más ruido del motor'],correct:0,explanation:'Un apoyo incorrecto puede provocar la caída del vehículo o un accidente grave.'},
+  {band:'m',tag:'residuos',level:'Nivel 6',points:15,q:'Los residuos líquidos (aceites, refrigerantes) deben:',options:['Guardarse en recipientes adecuados y etiquetados para recogida','Verterse al desagüe','Mezclarse con la basura común','Evaporarse al aire libre'],correct:0,explanation:'Los líquidos deben conservarse en envases adecuados para su gestión autorizada.'},
+  {band:'a',tag:'seguridad',level:'Nivel 7',points:20,q:'Si observas a un compañero sin EPI en una tarea de riesgo, debes:',options:['Informar y corregir la situación de forma adecuada','Ignorarlo porque es su responsabilidad','Imitarle para no quedar mal','No decir nada para no molestar'],correct:0,explanation:'La seguridad es una responsabilidad compartida en el taller.'},
+  {band:'a',tag:'herramientas',level:'Nivel 8',points:20,q:'Un plan de mantenimiento de primer nivel de herramientas debe incluir:',options:['Limpieza, revisión y conservación adecuada','Uso hasta rotura','No revisar estado','Guardarlas siempre sucias'],correct:0,explanation:'Las herramientas deben mantenerse en buen estado para trabajar con seguridad.'},
+  {band:'a',tag:'integracion',level:'Nivel 9',points:20,q:'Trabajar con orden, limpieza y método en RA4 es importante porque:',options:['Condiciona la seguridad personal y la imagen profesional','Solo influye en la estética','Sustituye la formación','Evita usar EPI'],correct:0,explanation:'Orden y limpieza son parte integral de la prevención y la profesionalidad.'},
+  {band:'a',tag:'integracion',level:'Nivel 10',points:25,q:'Aprobar el RA4 es especialmente relevante porque:',options:['Es requisito para realizar prácticas en empresas y acredita un mínimo de seguridad real','Solo afecta a la nota teórica','No tiene relación con la realidad del taller','Se puede ignorar sin consecuencias'],correct:0,explanation:'RA4 está vinculado a la seguridad real y al acceso a prácticas en empresa.'}
+]
+
+}; // fin questionPools
+
+// ── Renderizado de secciones ──────────────────────────────────────────────────
+function renderQuizSections(){
+  const target=document.getElementById('quizzes');
+  // CORRECCIÓN: mensaje de final dice RA4 (no RA2)
+  target.innerHTML=['ud1','final'].map(id=>`
+    <section class="section" id="${id}">
+      <div class="section-head"><div>
+        <h2>${unitMeta[id][0]}</h2>
+        <p class="muted">${unitMeta[id][1]}</p>
+      </div></div>
+      <div class="quiz-layout">
+        <aside class="status-box">
+          <h3>Estado ${id==='final'?'final':id.toUpperCase()}</h3>
+          <div class="progress"><div class="bar" id="bar-${id}"></div></div>
+          <p id="progress-${id}">${id==='final'?'Bloqueada hasta completar UD1':'Pregunta 1 de 20'}</p>
+          <div class="meta">
+            <span class="pill">⭐ <span id="score-${id}">0</span>/${id==='final'?10:20}</span>
+            ${id!=='final'?`<span class="pill">🔥 <span id="streak-${id}">0</span></span><span class="pill">🪙 <span id="points-${id}">0</span></span>`:''}
+          </div>
+          <button class="btn ${id==='final'?'btn-primary':'btn-secondary'}" id="restart-${id}" style="display:none">
+            Nuevo intento ${id==='final'?'final':id.toUpperCase()}
+          </button>
+        </aside>
+        <div class="quiz-box">
+          <div class="pill" id="level-${id}">${id==='final'?'Bloqueada':'Básico'}</div>
+          <h3 class="question-title" id="question-${id}">${id==='final'?'Completa primero la unidad del RA4 para desbloquear esta prueba final.':''}</h3>
+          <div class="options" id="options-${id}"></div>
+          <div class="feedback" id="feedback-${id}"></div>
+          <div class="reward" id="reward-${id}"></div>
+          <div class="gate-note" id="gate-${id}"></div>
+          <div class="review-box" id="review-${id}"></div>
+        </div>
+      </div>
+    </section>`).join('');
+}
+
+renderQuizSections();
+hydrateResults();
+
+// ── Lógica de desbloqueo ──────────────────────────────────────────────────────
+function passesUnlock(id){const r=globalState.results[id]||defaultResult(); return (r.bestScore>=7)||((r.basicCorrect||0)>=(r.basicTotal||3));}
+function isQuizUnlocked(id){if(id==='ud1') return true; if(id==='final') return unitIds.every(unit=>passesUnlock(unit)); const rule=unlockRules[id]; return !rule||passesUnlock(rule.prev);}
+function gateMessage(id){if(id==='ud1') return 'Bloque inicial disponible.'; if(id==='final') return 'Desbloquea esta prueba logrando al menos 70% o 100% de básicas en UD1.'; const rule=unlockRules[id]; return rule?rule.label:'Disponible';}
+function attemptsLeft(id){const used=(globalState.results[id]?.attempts)||0; return Math.max(0,maxAttemptsPerBlock-used);}
+function hasAttemptsLeft(id){return attemptsLeft(id)>0;}
+
+// ── Panel global ──────────────────────────────────────────────────────────────
+function updateGlobalPanel(){
+  document.getElementById('global-points').textContent=globalState.points;
+  document.getElementById('global-stars').textContent=globalState.stars;
+  document.getElementById('global-streak').textContent=globalState.bestStreak;
+  // CORRECCIÓN: /1 porque hay 1 unitId
+  document.getElementById('global-units').textContent=`${globalState.completedUnits.size}/1`;
+  document.getElementById('global-saves').textContent=globalState.saveCount;
+  if(isQuizUnlocked('final')){
+    const lv=document.getElementById('level-final');
+    const qt=document.getElementById('question-final');
+    if(lv) lv.textContent='Desbloqueada';
+    if(qt) qt.textContent='La prueba final del RA4 ya está desbloqueada. Puedes comenzar.';
+  }
+  updateReport();
+}
+
+// ── Insignias ─────────────────────────────────────────────────────────────────
+function unlockBadge(id,score){
+  const badge=document.getElementById('badge-'+id);
+  if(!badge) return;
+  badge.classList.remove('badge-lock');
+  const label=id==='final'?'FINAL':id.toUpperCase();
+  badge.innerHTML=`<h3>${score>=8?'🏆':'✅'} ${label}</h3><p>${score>=8?'Insignia oro conseguida':'Bloque completado'}</p>`;
+}
+function levelLabel(score,total){const r=score/total; if(r>=0.8) return 'Alto'; if(r>=0.5) return 'Medio'; return 'Bajo';}
+
+// ── Informe ───────────────────────────────────────────────────────────────────
+// CORRECCIÓN: totales correctos y mensajes dicen RA4
+function updateReport(){
+  document.getElementById('report-name').textContent=student.name;
+  const ids=['ud1','final'];
+  document.getElementById('report-table').innerHTML=ids.map(id=>{
+    const r=globalState.results[id]||defaultResult(id==='final'?10:20);
+    const label=id==='final'?'Final RA4':id.toUpperCase();
+    const tot=r.total||(id==='final'?10:20);
+    return `<tr><td>${label}</td><td>${r.bestScore||0}/${tot}</td><td>${r.attempts||0}</td><td>${r.lastScore||0}/${tot}</td><td>${(r.attempts||0)?levelLabel(r.bestScore||0,tot):'Pendiente'}</td></tr>`;
+  }).join('');
+  const completed=ids.map(id=>globalState.results[id]).filter(r=>r&&r.attempts);
+  if(!completed.length){document.getElementById('global-diagnosis').innerHTML='<strong>Diagnóstico global:</strong> Cuando el alumno complete pruebas, aquí aparecerá una valoración resumida.'; return;}
+  const avg=completed.reduce((a,b)=>a+((b.bestScore||0)/(b.total||(b===globalState.results['final']?10:20))),0)/completed.length;
+  let msg='Necesita refuerzo general en los contenidos del RA4.';
+  if(avg>=0.8) msg='Buen dominio global del RA4: seguridad, herramientas y gestión de residuos.';
+  else if(avg>=0.5) msg='Progreso adecuado en el RA4, aunque conviene reforzar algunos contenidos.';
+  document.getElementById('global-diagnosis').innerHTML=`<strong>Diagnóstico global:</strong> ${msg}`;
+}
+
+// ── Repaso y resumen ──────────────────────────────────────────────────────────
+function buildReview(id,tagErrors){
+  const source=reviewMessages[id];
+  const sorted=Object.entries(tagErrors).sort((a,b)=>b[1]-a[1]).filter(x=>x[1]>0).slice(0,3);
+  if(!sorted.length) return '<strong>Repaso recomendado:</strong> Muy buen trabajo. Puedes pasar al siguiente bloque.';
+  return `<strong>Repaso recomendado:</strong><ul>${sorted.map(([tag])=>`<li>${source[tag]||'Repasa los contenidos de este bloque.'}</li>`).join('')}</ul>`;
+}
+function buildGateSummary(id,basicCorrect,basicTotal,finalScore,total){
+  const okScore=finalScore>=7; const okBasic=basicCorrect>=basicTotal;
+  const nextIndex=unlockOrder.indexOf(id)+1; const nextId=unlockOrder[nextIndex];
+  if(okScore||okBasic){
+    if(!nextId) return `<strong>Bloque superado.</strong> Has cumplido el criterio de cierre del recorrido.`;
+    return `<strong>Bloque superado.</strong> Has conseguido ${finalScore}/${total} y ${basicCorrect}/${basicTotal} básicas. Ya puedes pasar a ${nextId==='final'?'la prueba final':nextId.toUpperCase()}.`;
+  }
+  return `<strong>Bloque no superado.</strong> Has conseguido ${finalScore}/${total} y ${basicCorrect}/${basicTotal} básicas. Necesitas llegar al 70% o acertar todas las preguntas básicas para desbloquear el siguiente bloque.`;
+}
+
+// ── Motor de quiz ─────────────────────────────────────────────────────────────
+function createQuiz(id){
+  let current=0,score=0,streak=0,points=0,questions=[],tagErrors={},basicCorrect=0,basicTotal=0;
+  // CORRECCIÓN: shuffledOptions declarada en el scope de createQuiz
+  let shuffledOptions=[];
+  const bar=document.getElementById('bar-'+id),
+    progress=document.getElementById('progress-'+id),
+    scoreEl=document.getElementById('score-'+id),
+    streakEl=document.getElementById('streak-'+id),
+    pointsEl=document.getElementById('points-'+id),
+    level=document.getElementById('level-'+id),
+    question=document.getElementById('question-'+id),
+    options=document.getElementById('options-'+id),
+    feedback=document.getElementById('feedback-'+id),
+    reward=document.getElementById('reward-'+id),
+    gate=document.getElementById('gate-'+id),
+    review=document.getElementById('review-'+id),
+    restart=document.getElementById('restart-'+id);
+
+  function prepare(){
+    questions=id==='final'?[...questionPools[id]]:buildSelection(questionPools[id]);
+    current=0; score=0; streak=0; points=0; tagErrors={};
+    basicCorrect=0; basicTotal=questions.filter(q=>q.band==='b').length;
+  }
+
+  // CORRECCIÓN: attemptsState definida
+  function attemptsState(){
+    options.innerHTML=''; feedback.style.display='none'; reward.style.display='none'; review.style.display='none';
+    if(gate){gate.className='gate-note';gate.style.display='block';gate.innerHTML='<strong>Sin intentos disponibles.</strong> Has agotado los 3 intentos de este bloque. Contacta con el profesor.';}
+    progress.textContent='Intentos agotados (0/3)'; level.textContent='Bloqueada';
+    question.textContent='Has agotado los intentos disponibles para este bloque.';
+    restart.style.display='none'; bar.style.width='100%';
+  }
+
+  function lockedState(){
+    options.innerHTML=''; feedback.style.display='none'; reward.style.display='none'; review.style.display='none';
+    if(gate){gate.className='gate-note';gate.style.display='block';gate.innerHTML=`<strong>Bloque bloqueado.</strong> ${gateMessage(id)}`;}
+    progress.textContent=gateMessage(id); level.textContent='Bloqueada';
+    question.textContent=id==='final'?'Completa los bloques anteriores para acceder a la prueba final.':'Primero debes superar el bloque anterior para continuar.';
+    restart.style.display='none'; bar.style.width='0%';
+  }
+
+  function render(){
+    if(current>=questions.length) current=0;
+    if(!isQuizUnlocked(id)){lockedState(); return;}
+    if(!hasAttemptsLeft(id)&&current===0){attemptsState(); return;}
+    if(gate) gate.style.display='none';
+    const item=questions[current];
+    progress.textContent=`Pregunta ${current+1} de ${questions.length} · Intentos disponibles: ${attemptsLeft(id)}/${maxAttemptsPerBlock}`;
+    bar.style.width=((current/questions.length)*100)+'%';
+    level.textContent=item.level; question.textContent=item.q;
+    options.innerHTML=''; feedback.className='feedback'; feedback.style.display='none';
+    reward.style.display='none'; review.style.display='none'; restart.style.display='none';
+    shuffledOptions=shuffle(item.options.map((opt,i)=>({text:opt,originalIndex:i})));
+    shuffledOptions.forEach((opt,i)=>{
+      const b=document.createElement('button'); b.className='option'; b.textContent=opt.text;
+      b.addEventListener('click',()=>answer(i)); options.appendChild(b);
+    });
+  }
+
+  function answer(selected){
+    const item=questions[current];
+    const correctRenderedIndex=shuffledOptions.findIndex(opt=>opt.originalIndex===item.correct);
+    const btns=[...options.querySelectorAll('.option')];
+    btns.forEach((b,i)=>{
+      b.disabled=true;
+      if(i===correctRenderedIndex){b.style.borderColor='var(--success)';b.style.background='color-mix(in srgb,var(--success) 16%, var(--surface))';}
+      if(i===selected&&i!==correctRenderedIndex){b.style.borderColor='var(--danger)';b.style.background='color-mix(in srgb,var(--danger) 12%, var(--surface))';}
+    });
+    const ok=selected===correctRenderedIndex;
+    if(ok){score++; streak++; points+=item.points; globalState.points+=item.points; if(item.band==='b') basicCorrect++; if(streak>globalState.bestStreak) globalState.bestStreak=streak;}
+    else{streak=0; tagErrors[item.tag]=(tagErrors[item.tag]||0)+1;}
+    scoreEl.textContent=score;
+    if(streakEl) streakEl.textContent=streak;
+    if(pointsEl) pointsEl.textContent=points;
+    feedback.className='feedback '+(ok?'ok':'bad');
+    feedback.style.display='block';
+    feedback.innerHTML=`<strong>${ok?'Correcta':'Incorrecta'}.</strong> ${item.explanation}`;
+    updateGlobalPanel();
+    setTimeout(()=>{current++; if(current<questions.length){render();} else{finish();}},850);
+  }
+
+  function finish(){
+    bar.style.width='100%'; progress.textContent='Prueba completada'; options.innerHTML='';
+    const passed=(score>=7)||(basicCorrect>=basicTotal&&basicTotal>0);
+    const stars=score>=9?3:score>=7?2:score>=5?1:0;
+    question.textContent=passed?'Bloque superado.':'Bloque completado, pero no desbloqueado.';
+    level.textContent=passed?'Superado':'Pendiente';
+    feedback.className='feedback '+(passed?'ok':'bad'); feedback.style.display='block';
+    feedback.innerHTML=`<strong>Puntuación:</strong> ${score}/${questions.length}. Básicas correctas: ${basicCorrect}/${basicTotal}.`;
+    reward.className='reward '+(passed?'ok':'bad'); reward.style.display='block';
+    reward.innerHTML=passed
+      ?`<strong>Desbloqueo conseguido.</strong> Has ganado ${stars} estrella${stars===1?'':'s'} y puedes avanzar. Intentos restantes: ${Math.max(0,maxAttemptsPerBlock-((globalState.results[id]?.attempts||0)+1))}.`
+      :`<strong>Aún no desbloqueado.</strong> Necesitas 70% o acertar todas las preguntas básicas. Intentos restantes: ${Math.max(0,maxAttemptsPerBlock-((globalState.results[id]?.attempts||0)+1))}.`;
+    if(gate){gate.className='gate-note';gate.style.display='block';gate.innerHTML=buildGateSummary(id,basicCorrect,basicTotal,score,questions.length);}
+    review.style.display='block'; review.innerHTML=buildReview(id,tagErrors);
+    restart.style.display='inline-flex';
+    const existing=globalState.results[id]||defaultResult(questions.length);
+    globalState.results[id]={...existing,bestScore:Math.max(existing.bestScore||0,score),lastScore:score,total:questions.length,attempts:(existing.attempts||0)+1,stars:Math.max(existing.stars||0,stars),basicCorrect:Math.max(existing.basicCorrect||0,basicCorrect),basicTotal:basicTotal,unlocked:passed};
+    if(unitIds.includes(id)&&passed){globalState.completedUnits.add(id); unlockBadge(id,score);}
+    // CORRECCIÓN: badge-final se activa al superar la prueba final
+    if(id==='final'&&passed) unlockBadge('final',score);
+    globalState.stars=['ud1','final'].reduce((acc,key)=>acc+((globalState.results[key]?.stars)||0),0);
+    saveProfile(); updateGlobalPanel(); refreshAll();
+  }
+
+  restart.addEventListener('click',()=>{
+    prepare(); scoreEl.textContent='0';
+    if(streakEl) streakEl.textContent='0';
+    if(pointsEl) pointsEl.textContent='0';
+    restart.style.display='none'; render(); saveProfile();
+  });
+
+  prepare(); render();
+  return {refresh:render};
+}
+
+
+// ── Autoload: cargar perfil ANTES de inicializar los quizzes ─────────────────
+(function(){
+  const prefix=storagePrefix+'::';
+  for(let i=0;i<localStorage.length;i++){
+    const key=localStorage.key(i);
+    if(key&&key.startsWith(prefix)){
+      const name=key.slice(prefix.length);
+      if(name){
+        const raw=localStorage.getItem(key);
+        if(raw){
+          try{
+            const data=JSON.parse(raw);
+            student.name=data.studentName||name;
+            globalState.points=data.points||0;
+            globalState.stars=data.stars||0;
+            globalState.bestStreak=data.bestStreak||0;
+            globalState.completedUnits=new Set(data.completedUnits||[]);
+            globalState.results=data.results||{};
+            globalState.saveCount=data.saveCount||0;
+            hydrateResults();
+            // Actualizar campos de UI que ya existen en el DOM
+            const nameInput=document.getElementById('student-name');
+            const reportName=document.getElementById('report-name');
+            const saveStatus=document.getElementById('save-status');
+            const globalSaves=document.getElementById('global-saves');
+            if(nameInput) nameInput.value=student.name;
+            if(reportName) reportName.textContent=student.name;
+            if(saveStatus) saveStatus.textContent='Perfil cargado: '+student.name;
+            if(globalSaves) globalSaves.textContent=globalState.saveCount;
+          }catch(e){}
+        }
+        break;
+      }
+    }
+  }
+})();
+
+// ── Inicialización ────────────────────────────────────────────────────────────
+const quizzes={ud1:createQuiz('ud1'),final:createQuiz('final')};
+function refreshAll(){Object.values(quizzes).forEach(q=>q.refresh());}
+window.refreshAll=refreshAll;
+updateGlobalPanel();
+
+</script>
+</body>
+</html>
