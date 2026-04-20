@@ -1,0 +1,482 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aula Taller · RA3 Transmisión y Frenos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root,[data-theme="light"]{--bg:#f7f6f2;--surface:#f9f8f5;--surface2:#fbfbf9;--surface3:#f0ece6;--border:#d4d1ca;--text:#28251d;--muted:#6f6d67;--inv:#faf8f5;--primary:#01696f;--success:#437a22;--danger:#b13b82;--gold:#d19900;--radius:18px;--shadow:0 18px 40px rgba(35,28,18,.09);--font-display:'Instrument Serif', Georgia, serif;--font-body:'Inter', system-ui, sans-serif}
+    [data-theme="dark"]{--bg:#171614;--surface:#1c1b19;--surface2:#201f1d;--surface3:#262422;--border:#393836;--text:#e2dfd9;--muted:#a5a19b;--inv:#191816;--primary:#4f98a3;--success:#76b14c;--danger:#db77b2;--gold:#e4b843;--shadow:0 18px 40px rgba(0,0,0,.35)}
+    *{box-sizing:border-box;margin:0;padding:0} body{font-family:var(--font-body);background:var(--bg);color:var(--text);line-height:1.6} .wrap{max-width:1260px;margin:0 auto;padding:0 16px}
+    header{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--bg) 88%, transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+    .topbar{display:flex;justify-content:space-between;gap:16px;align-items:center;padding:14px 0}.brand{display:flex;gap:12px;align-items:center}.logo{width:46px;height:46px;border-radius:14px;background:linear-gradient(145deg,var(--surface3),var(--surface2));display:grid;place-items:center;border:1px solid var(--border)}
+    .logo svg{width:25px;height:25px;color:var(--primary)} .brand small{display:block;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;font-size:12px}.brand strong{font-size:15px}
+    .nav{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.nav a,.theme-btn,.btn,.chip,.pill{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:.75rem 1rem;border-radius:999px;border:1px solid var(--border);background:var(--surface);color:var(--text);text-decoration:none}
+    .btn-primary{background:var(--primary);border-color:var(--primary);color:var(--inv)} .btn-secondary{background:var(--surface2)}
+    .hero{padding:42px 0 24px;position:relative;overflow:hidden}.hero::after{content:'';position:absolute;left:50%;top:56%;transform:translate(-50%,-50%);width:min(30vw,360px);height:min(30vw,360px);pointer-events:none;opacity:.12;background-repeat:no-repeat;background-size:contain;background-position:center;background-image:url('https://pngimg.com/uploads/engine/engine_PNG23.png');filter:grayscale(1) contrast(.9) brightness(1.08)}
+    .hero-grid{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(320px,.88fr);gap:32px;align-items:start;position:relative;z-index:1}.eyebrow{display:inline-flex;align-items:center;gap:8px;padding:.4rem .75rem;border-radius:999px;background:color-mix(in srgb,var(--primary) 14%, var(--surface));color:var(--primary);font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.05em}
+    h1{font-family:var(--font-display);font-size:clamp(2.4rem,4vw,4.4rem);line-height:1.02;margin:14px 0 10px} h2{font-size:clamp(1.6rem,2vw,2.3rem);line-height:1.08} h3{font-size:1.15rem;line-height:1.15}
+    .lead{font-size:1.08rem;color:var(--muted);max-width:66ch}.panel,.quiz-box,.status-box,.report-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px}
+    .hero-side{display:grid;gap:14px}.hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.stat{padding:16px;border-radius:16px;background:var(--surface2);border:1px solid var(--border)}
+    .section{padding:24px 0}.section-head{display:flex;justify-content:space-between;align-items:end;gap:16px;margin-bottom:16px}.muted{color:var(--muted)} .cards3{display:grid;gap:14px;grid-template-columns:repeat(3,1fr)}
+    .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}.chip,.pill{min-height:auto;padding:.45rem .75rem;font-size:12px;background:var(--surface3)} .badgebox{padding:16px;border-radius:16px;background:var(--surface2);border:1px solid var(--border)} .badge-lock{opacity:.55;filter:grayscale(.25)}
+    .quiz-layout{display:grid;grid-template-columns:.8fr 1.2fr;gap:18px;align-items:start}.status-box{position:sticky;top:96px}.progress{height:14px;border-radius:999px;background:var(--surface3);border:1px solid var(--border);overflow:hidden;margin:10px 0}.bar{height:100%;width:0;background:linear-gradient(90deg,var(--primary),var(--gold));transition:width .3s ease}.meta{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0}
+    .question-title{margin:.4rem 0 .8rem}.options{display:grid;gap:10px;margin-top:14px}.option{padding:14px 16px;border-radius:16px;border:1px solid var(--border);background:var(--surface2);text-align:left;min-height:54px;color:var(--text)}
+    .feedback,.reward,.review-box,.save-status,.gate-note{display:none;margin-top:14px;padding:14px;border-radius:16px;background:var(--surface3);border:1px solid var(--border)} .ok{display:block;background:color-mix(in srgb,var(--success) 14%, var(--surface));border:1px solid color-mix(in srgb,var(--success) 38%, var(--border))}.bad{display:block;background:color-mix(in srgb,var(--danger) 12%, var(--surface));border:1px solid color-mix(in srgb,var(--danger) 32%, var(--border))}.gate-note{display:block;background:color-mix(in srgb,var(--gold) 14%, var(--surface));border:1px solid color-mix(in srgb,var(--gold) 35%, var(--border))}
+    .student-form{display:grid;grid-template-columns:1fr auto;gap:10px;margin-top:12px}.student-form input{min-height:44px;padding:.8rem 1rem;border-radius:14px;border:1px solid var(--border);background:var(--surface2);color:var(--text)} .save-box{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}.save-status{display:block;font-size:14px}
+    .table{width:100%;border-collapse:collapse;margin-top:10px}.table th,.table td{text-align:left;padding:10px;border-bottom:1px solid var(--border)} footer{padding:36px 0 60px;color:var(--muted)}
+    @media (max-width:1080px){.hero-grid,.quiz-layout,.cards3{grid-template-columns:1fr 1fr}.status-box{position:static}.hero::after{left:50%;top:60%;transform:translate(-50%,-50%);width:min(34vw,300px);height:min(34vw,300px);opacity:.095}} @media (max-width:760px){.hero-grid,.quiz-layout,.cards3,.hero-stats,.student-form{grid-template-columns:1fr}.topbar{flex-direction:column;align-items:flex-start}.hero::after{left:50%;top:78%;transform:translate(-50%,-50%);width:min(52vw,220px);height:min(52vw,220px);opacity:.075}}
+  </style>
+</head>
+<body>
+
+<!-- CORRECCIÓN: logo SVG temático (engranaje/transmisión) -->
+<header><div class="wrap topbar"><div class="brand"><div class="logo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/></svg></div><div><small>RA3 Transmisión y Frenos</small><strong>Aula Taller</strong></div></div><nav class="nav" aria-label="Principal"><a href="#ud6">UD6</a><a href="#ud9">UD9</a><a href="#final">Final RA3</a><a href="#informe">Informe</a><button class="theme-btn" data-theme-toggle aria-label="Cambiar tema">◐</button></nav></div></header>
+
+<main class="wrap">
+<section class="hero"><div class="hero-grid"><div><span class="eyebrow">RA3</span><h1>Aula Taller</h1><p class="lead">RA3: Realiza el mantenimiento básico del sistema de transmisión y frenos, analizando sus principios de funcionamiento y justificando las actuaciones de mantenimiento requeridas.</p><div class="chips"><span class="chip">40 preguntas por unidad</span><span class="chip">Se extraen 20</span><span class="chip">Sin repetir dentro del intento</span><span class="chip">Guardado local</span></div><div class="student-form"><input id="student-name" type="text" placeholder="Escribe el nombre del alumno"><button class="btn btn-primary" id="save-student">Guardar nombre</button></div><div class="save-box"><div class="save-status" id="save-status">Sin perfil cargado</div><button class="btn btn-secondary" id="resume-student">Cargar progreso</button><button class="btn btn-secondary" id="clear-student">Reiniciar perfil</button></div></div><aside class="panel hero-side"><h3>Panel del alumno</h3><div class="hero-stats"><div class="stat"><strong id="global-points">0</strong><br><span class="muted">Puntos</span></div><div class="stat"><strong id="global-stars">0</strong><br><span class="muted">Estrellas</span></div><div class="stat"><strong id="global-streak">0</strong><br><span class="muted">Mejor racha</span></div><!-- CORRECCIÓN: 0/2 porque unitIds tiene 2 UDs --><div class="stat"><strong id="global-units">0/2</strong><br><span class="muted">UD completadas</span></div><div class="stat"><strong id="global-saves">0</strong><br><span class="muted">Guardados</span></div></div></aside></div></section>
+
+<!-- CORRECCIÓN: 3 insignias (ud6, ud9, final) con IDs correctos y grid de 3 columnas -->
+<section class="section"><div class="section-head"><div><h2>Insignias del recorrido</h2><p class="muted">Cada unidad usa un banco amplio y diferente en cada intento.</p></div></div><div class="cards3"><div class="badgebox badge-lock" id="badge-ud6"><h3>⚙️ UD6</h3><p>Transmisión</p></div><div class="badgebox badge-lock" id="badge-ud9"><h3>🛑 UD9</h3><p>Frenos</p></div><div class="badgebox badge-lock" id="badge-final"><h3>🏁 Final</h3><p>Prueba final RA3</p></div></div></section>
+
+<div id="quizzes"></div>
+
+<section class="section" id="informe"><div class="section-head"><div><h2>Informe final del alumno</h2><p class="muted">Resumen por unidad, intentos y evolución del RA3.</p></div></div><div class="report-box" id="report-box" style="display:block"><p><strong>Alumno:</strong> <span id="report-name">Sin nombre</span></p><table class="table"><thead><tr><th>Bloque</th><th>Mejor resultado</th><th>Intentos</th><th>Último</th><th>Nivel</th></tr></thead><tbody id="report-table"></tbody></table><div class="review-box" id="global-diagnosis" style="display:block;margin-top:16px"><strong>Diagnóstico global:</strong> Cuando el alumno complete pruebas, aquí aparecerá una valoración resumida.</div></div></section>
+</main>
+<footer class="wrap"><p>Aula Taller · RA3 Transmisión y frenos.</p></footer>
+
+<script>
+// ── Tema ─────────────────────────────────────────────────────────────────────
+(function(){const root=document.documentElement,btn=document.querySelector('[data-theme-toggle]');let theme=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';root.setAttribute('data-theme',theme);btn.addEventListener('click',()=>{theme=theme==='dark'?'light':'dark';root.setAttribute('data-theme',theme);});})();
+
+// ── Configuración ─────────────────────────────────────────────────────────────
+const storagePrefix='aula-taller-ra3-v1';
+const maxAttemptsPerBlock=3;
+const student={name:'Sin nombre'};
+const globalState={points:0,stars:0,bestStreak:0,completedUnits:new Set(),results:{},saveCount:0};
+const unitIds=['ud6','ud9'];
+const unlockOrder=['ud6','ud9','final'];
+const unlockRules={
+  ud6:null,
+  ud9:{prev:'ud6',score:7,label:'Necesitas al menos 70% en UD6 o acertar todas las básicas.'},
+  final:{prev:'ud9',score:7,label:'Necesitas al menos 70% en UD9 o acertar todas las básicas, además de superar los bloques anteriores.'}
+};
+const unitMeta={
+  ud6:['Evaluación UD6 · Transmisión','40 preguntas en banco; se extraen 20 con dificultad gradual.'],
+  ud9:['Evaluación UD9 · Frenos','40 preguntas en banco; se extraen 20 con dificultad gradual.'],
+  // CORRECCIÓN: 10 preguntas finales (no 20)
+  final:['Evaluación final del RA3','10 preguntas finales progresivas tras completar las dos unidades.']
+};
+
+// ── Perfil y estado ───────────────────────────────────────────────────────────
+// CORRECCIÓN: defaultResult distingue total según bloque
+function defaultResult(total=20){return {bestScore:0,lastScore:0,total,attempts:0,stars:0,basicCorrect:0,basicTotal:3,unlocked:false};}
+function profileKey(name){return `${storagePrefix}::${(name||'').trim().toLowerCase()}`;}
+function hydrateResults(){
+  // CORRECCIÓN: final usa total=10, UDs usan total=20
+  ['ud6','ud9'].forEach(id=>{if(!globalState.results[id]) globalState.results[id]=defaultResult(20); globalState.results[id]={...defaultResult(20),...globalState.results[id]};});
+  if(!globalState.results['final']) globalState.results['final']=defaultResult(10);
+  globalState.results['final']={...defaultResult(10),...globalState.results['final']};
+}
+function serializableState(){return {studentName:student.name,points:globalState.points,stars:globalState.stars,bestStreak:globalState.bestStreak,completedUnits:[...globalState.completedUnits],results:globalState.results,saveCount:globalState.saveCount};}
+function saveProfile(){if(!student.name||student.name==='Sin nombre') return; localStorage.setItem(profileKey(student.name),JSON.stringify(serializableState())); globalState.saveCount+=1; document.getElementById('save-status').textContent=`Progreso guardado para ${student.name}`; document.getElementById('global-saves').textContent=globalState.saveCount;}
+function loadProfileByName(name){const raw=localStorage.getItem(profileKey(name)); if(!raw) return false; const data=JSON.parse(raw); student.name=data.studentName||name||'Sin nombre'; globalState.points=data.points||0; globalState.stars=data.stars||0; globalState.bestStreak=data.bestStreak||0; globalState.completedUnits=new Set(data.completedUnits||[]); globalState.results=data.results||{}; globalState.saveCount=data.saveCount||0; hydrateResults(); document.getElementById('student-name').value=student.name; document.getElementById('report-name').textContent=student.name; document.getElementById('save-status').textContent=`Perfil cargado: ${student.name}`; document.getElementById('global-saves').textContent=globalState.saveCount; return true;}
+function resetProfile(){if(student.name&&student.name!=='Sin nombre') localStorage.removeItem(profileKey(student.name)); student.name='Sin nombre'; globalState.points=0; globalState.stars=0; globalState.bestStreak=0; globalState.completedUnits=new Set(); globalState.results={}; globalState.saveCount=0; hydrateResults(); document.getElementById('student-name').value=''; document.getElementById('report-name').textContent='Sin nombre'; document.getElementById('save-status').textContent='Perfil reiniciado'; document.getElementById('global-saves').textContent='0';}
+
+document.getElementById('save-student').addEventListener('click',()=>{const v=document.getElementById('student-name').value.trim(); student.name=v||'Sin nombre'; document.getElementById('report-name').textContent=student.name; hydrateResults(); saveProfile(); updateGlobalPanel();});
+document.getElementById('resume-student').addEventListener('click',()=>{const v=document.getElementById('student-name').value.trim(); if(!v){document.getElementById('save-status').textContent='Escribe el nombre para cargar el progreso'; return;} if(!loadProfileByName(v)){document.getElementById('save-status').textContent='No existe progreso guardado con ese nombre';} updateGlobalPanel(); refreshAll();});
+document.getElementById('clear-student').addEventListener('click',()=>{resetProfile(); updateGlobalPanel(); refreshAll();});
+
+// ── Utilidades ────────────────────────────────────────────────────────────────
+function shuffle(arr){const a=[...arr]; for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a;}
+function buildSelection(pool){const easy=shuffle(pool.filter(q=>q.band==='b')).slice(0,6); const mid=shuffle(pool.filter(q=>q.band==='m')).slice(0,8); const hard=shuffle(pool.filter(q=>q.band==='a')).slice(0,6); return shuffle([...easy,...mid,...hard]);}
+
+
+// ── Mensajes de repaso ────────────────────────────────────────────────────────
+const reviewMessages={
+  ud6:{
+    embrague:'Repasa embrague, caja de cambios y diferencial.',
+    arboles:'Repasa árbol de transmisión, palieres y buje.',
+    mantenimiento:'Repasa niveles, sustitución y seguridad en transmisión.'
+  },
+  ud9:{
+    elementos:'Repasa elementos del sistema de frenos y su función.',
+    hidraulico:'Repasa circuito hidráulico, líquido y ausencia de fugas.',
+    sustitucion:'Repasa sustitución de pastillas, zapatas, discos y tambores.'
+  },
+  final:{
+    integracion:'Relaciona transmisión y frenos en el mantenimiento básico.',
+    seguridad:'Refuerza procedimientos seguros, limpieza y verificación final.',
+    mantenimiento:'Repasa niveles, sustituciones y comprobaciones de fugas.'
+  }
+};
+
+// ── Banco de preguntas ────────────────────────────────────────────────────────
+const questionPools={
+
+// ════════════════════════════════════════════════════════════════════════════
+ud6:[
+  // BÁSICO (8 preguntas)
+  {band:'b',tag:'embrague',level:'Básico',points:10,q:'¿Cuál es la función principal del sistema de transmisión?',options:['Transmitir el movimiento del motor a las ruedas','Refrigerar el motor','Filtrar el aire de admisión','Impulsar el líquido de frenos'],correct:0,explanation:'La transmisión lleva el par y movimiento del motor hasta las ruedas motrices.'},
+  {band:'b',tag:'embrague',level:'Básico',points:10,q:'¿Qué elemento permite acoplar y desacoplar el motor de la caja de cambios?',options:['Embrague','Radiador','Catalizador','Amortiguador'],correct:0,explanation:'El embrague une o separa temporalmente motor y transmisión.'},
+  {band:'b',tag:'embrague',level:'Básico',points:10,q:'La caja de cambios sirve para:',options:['Adaptar la relación de transmisión a las necesidades de marcha','Aumentar la presión del aceite','Filtrar el combustible','Refrigerar el habitáculo'],correct:0,explanation:'La caja de cambios modifica la relación entre giro del motor y giro de las ruedas.'},
+  {band:'b',tag:'embrague',level:'Básico',points:10,q:'¿Qué componente reparte el giro entre las ruedas motrices permitiendo diferencia de velocidad?',options:['Diferencial','Termostato','Alternador','Filtro de aire'],correct:0,explanation:'El diferencial permite distinta velocidad de giro entre ruedas de un mismo eje.'},
+  {band:'b',tag:'arboles',level:'Básico',points:10,q:'El árbol de transmisión se utiliza para:',options:['Transmitir el giro entre elementos separados de la transmisión','Soportar el radiador','Accionar el limpiaparabrisas','Regular el freno de mano'],correct:0,explanation:'El árbol de transmisión comunica el movimiento entre órganos separados.'},
+  {band:'b',tag:'arboles',level:'Básico',points:10,q:'Los palieres transmiten el movimiento hacia:',options:['Las ruedas motrices','El ventilador del motor','La batería','El alternador'],correct:0,explanation:'Los palieres llevan el par desde el diferencial hasta las ruedas motrices.'},
+  {band:'b',tag:'mantenimiento',level:'Básico',points:10,q:'Una comprobación básica en transmisión es revisar:',options:['El nivel de fluido o aceite de caja y diferencial','El color del volante','La presión del lavaparabrisas','La temperatura del escape'],correct:0,explanation:'Caja y diferencial requieren verificación de nivel y estado del lubricante.'},
+  {band:'b',tag:'embrague',level:'Básico',points:10,q:'El convertidor hidráulico de par se asocia normalmente a:',options:['Transmisiones automáticas','Sistemas de refrigeración','Frenos de tambor','Frenos de disco ventilado'],correct:0,explanation:'El convertidor de par es propio de muchas transmisiones automáticas.'},
+  // MEDIO (16 preguntas)
+  {band:'m',tag:'embrague',level:'Medio',points:15,q:'Si el embrague no desacopla bien, puede dificultar:',options:['El cambio de marchas','La presión del refrigerante','La carga de la batería','La ventilación del habitáculo'],correct:0,explanation:'Un embrague defectuoso perjudica el acoplamiento y el cambio de marchas.'},
+  {band:'m',tag:'embrague',level:'Medio',points:15,q:'La misión del diferencial es especialmente importante al:',options:['Tomar curvas','Lavar el vehículo','Comprobar el claxon','Cambiar el filtro de aire'],correct:0,explanation:'En curva las ruedas recorren distinta distancia y deben girar a distinta velocidad.'},
+  {band:'m',tag:'arboles',level:'Medio',points:15,q:'La sustitución de un árbol de transmisión exige tener en cuenta:',options:['Tipo, montaje y elementos que lo componen','Solo el color de la pieza','La temperatura del líquido refrigerante','La presión del neumático de repuesto'],correct:0,explanation:'La intervención debe ajustarse al tipo de árbol y a sus elementos asociados.'},
+  {band:'m',tag:'mantenimiento',level:'Medio',points:15,q:'Si falta lubricante en la caja de cambios, puede producirse:',options:['Desgaste y funcionamiento deficiente','Mayor potencia del motor','Menor temperatura ambiente','Mejor frenada'],correct:0,explanation:'Una lubricación insuficiente favorece desgaste y mal funcionamiento.'},
+  {band:'m',tag:'embrague',level:'Medio',points:15,q:'La transmisión se encarga de llevar el par motor desde el motor hasta:',options:['Las ruedas motrices','El alternador','El radiador','La bomba de agua'],correct:0,explanation:'Su finalidad es hacer llegar el movimiento útil a las ruedas.'},
+  {band:'m',tag:'arboles',level:'Medio',points:15,q:'Un palier dañado puede afectar directamente a:',options:['La transmisión del movimiento a la rueda','La temperatura del motor','La iluminación interior','La recirculación de gases'],correct:0,explanation:'El palier es esencial para transmitir movimiento al conjunto rueda.'},
+  {band:'m',tag:'mantenimiento',level:'Medio',points:15,q:'Tras reponer o sustituir fluido de transmisión, conviene verificar:',options:['Nivel correcto y ausencia de fugas','Solo el estado del capó','La presión del aire acondicionado','El dibujo del neumático'],correct:0,explanation:'Después de intervenir debe comprobarse nivel y estanqueidad.'},
+  {band:'m',tag:'embrague',level:'Medio',points:15,q:'La caja de cambios permite que el vehículo:',options:['Adapte esfuerzo y velocidad según la marcha seleccionada','Aumente la presión del líquido de frenos','Elimine vibraciones de suspensión','Filtre el combustible'],correct:0,explanation:'Las distintas relaciones permiten ajustar esfuerzo y velocidad.'},
+  {band:'m',tag:'arboles',level:'Medio',points:15,q:'Una intervención correcta sobre transmisión requiere:',options:['Orden, limpieza, precisión y seguridad','Improvisar para terminar antes','Golpear piezas sin útil','Vaciar otros circuitos sin motivo'],correct:0,explanation:'La transmisión es un sistema mecánico que requiere método y limpieza.'},
+  {band:'m',tag:'mantenimiento',level:'Medio',points:15,q:'Una de las comprobaciones básicas del diferencial es:',options:['Revisar el nivel y estado del lubricante','Cambiar el color del aceite','Medir la presión de combustible','Purgar el radiador'],correct:0,explanation:'El diferencial debe mantener lubricación adecuada para trabajar correctamente.'},
+  {band:'m',tag:'embrague',level:'Medio',points:15,q:'El convertidor de par realiza una función comparable al embrague porque:',options:['Permite transmitir el movimiento con acoplamiento hidráulico','Aumenta la presión del neumático','Sustituye al diferencial','Refrigera el disco de freno'],correct:0,explanation:'Cumple la función de acoplamiento en muchas transmisiones automáticas.'},
+  {band:'m',tag:'arboles',level:'Medio',points:15,q:'El buje se relaciona con la transmisión porque:',options:['Forma parte del conjunto que transmite y soporta el giro de la rueda','Regula la mezcla del motor','Sujeta el radiador','Activa la servoasistencia'],correct:0,explanation:'El buje participa en el conjunto giratorio de la rueda.'},
+  {band:'m',tag:'mantenimiento',level:'Medio',points:15,q:'Antes de sustituir un elemento de transmisión se debe:',options:['Asegurar el vehículo y seguir el procedimiento adecuado','Abrir el circuito de frenos','Vaciar el depósito de combustible','Desmontar el paragolpes sin necesidad'],correct:0,explanation:'La operación debe comenzar con seguridad y procedimiento correcto.'},
+  {band:'m',tag:'arboles',level:'Medio',points:15,q:'Un guardapolvo o fuelle de palier deteriorado puede provocar:',options:['Contaminación de la junta homocinética y avería prematura','Mayor presión del aceite','Mejor equilibrado de ruedas','Reducción del consumo eléctrico'],correct:0,explanation:'El fuelle protege la junta homocinética; si falla, entra suciedad y se deteriora.'},
+  {band:'m',tag:'mantenimiento',level:'Medio',points:15,q:'Al revisar el nivel de aceite de la caja de cambios, la lectura debe hacerse:',options:['Con el vehículo en horizontal y en las condiciones que indique el fabricante','Con el motor caliente siempre','Con el vehículo en rampa pronunciada','Con el nivel de aceite del motor bajado'],correct:0,explanation:'La medición debe hacerse según el procedimiento establecido para obtener datos fiables.'},
+  {band:'m',tag:'embrague',level:'Medio',points:15,q:'Si al soltar el pedal de embrague se nota deslizamiento y pérdida de fuerza, puede indicar:',options:['Desgaste del disco de embrague','Exceso de presión del neumático','Fallo del alternador','Rotura del silencioso'],correct:0,explanation:'El deslizamiento es síntoma habitual de disco de embrague desgastado.'},
+  // ALTO (16 preguntas)
+  {band:'a',tag:'embrague',level:'Alto',points:20,q:'Un sistema de transmisión en mal estado puede afectar a:',options:['Tracción, suavidad de marcha y seguridad de funcionamiento','Color de la pintura','Presión del circuito de frenos','Temperatura del limpiaparabrisas'],correct:0,explanation:'La transmisión influye en cómo el vehículo entrega el movimiento a las ruedas.'},
+  {band:'a',tag:'mantenimiento',level:'Alto',points:20,q:'Si se detecta nivel bajo en caja o diferencial, la actuación correcta es:',options:['Reponer o sustituir el lubricante según procedimiento y especificación','Añadir cualquier fluido disponible','Ignorar el nivel si no hay ruido','Vaciar el circuito completo sin comprobar'],correct:0,explanation:'Debe actuarse según especificación y procedimiento del fabricante.'},
+  {band:'a',tag:'arboles',level:'Alto',points:20,q:'La sustitución de árboles de transmisión debe realizarse considerando:',options:['Tipo, elementos asociados y especificaciones del fabricante','Solo la longitud aproximada','Únicamente la marca del vehículo','El color del guardapolvo'],correct:0,explanation:'La operación depende del tipo de árbol y de sus especificaciones concretas.'},
+  {band:'a',tag:'embrague',level:'Alto',points:20,q:'El diferencial evita esfuerzos indebidos en la transmisión porque:',options:['Permite distinta velocidad de giro entre ruedas motrices','Reduce la presión del aceite','Compensa la altura de la suspensión','Aumenta la carga del alternador'],correct:0,explanation:'Sin diferencial, las ruedas motrices tenderían a forzar el sistema en curva.'},
+  {band:'a',tag:'mantenimiento',level:'Alto',points:20,q:'Tras una intervención en transmisión, una señal de trabajo bien hecho es:',options:['Funcionamiento correcto y ausencia de fugas o ruidos anómalos','Mayor dureza del volante','Más humo de escape','Oscilación de la carrocería'],correct:0,explanation:'La comprobación final debe confirmar que no hay fugas ni anomalías.'},
+  {band:'a',tag:'embrague',level:'Alto',points:20,q:'La relación entre embrague y caja de cambios es que el primero:',options:['Permite acoplar o desacoplar el giro para facilitar el cambio','Sustituye al diferencial','Refrigera el aceite de la caja','Acciona los frenos'],correct:0,explanation:'El embrague facilita la conexión controlada entre motor y caja.'},
+  {band:'a',tag:'arboles',level:'Alto',points:20,q:'Si un palier o árbol de transmisión presenta problema, puede repercutir en:',options:['La entrega de movimiento a las ruedas','La presión del circuito de agua','El alumbrado del cuadro','El filtro del habitáculo'],correct:0,explanation:'Estos elementos son esenciales para transmitir el movimiento a las ruedas.'},
+  {band:'a',tag:'mantenimiento',level:'Alto',points:20,q:'El mantenimiento de primer nivel de útiles y herramientas de transmisión incluye:',options:['Limpieza, lubricación y cuidado según fabricante','Golpear los útiles para desatascarlos','Guardarlos sin revisar','Usarlos aunque estén dañados'],correct:0,explanation:'Los útiles deben mantenerse en correcto estado de uso y limpieza.'},
+  {band:'a',tag:'embrague',level:'Alto',points:20,q:'Una caja de cambios trabaja correctamente cuando:',options:['Adapta la transmisión sin anomalías ni dificultad de funcionamiento','Aumenta por sí sola la potencia del motor','Sustituye al embrague','Elimina el diferencial'],correct:0,explanation:'Su misión es adaptar relaciones, no generar potencia adicional.'},
+  {band:'a',tag:'arboles',level:'Alto',points:20,q:'En la transmisión, actuar con precisión es importante porque:',options:['Un mal montaje puede provocar averías y funcionamiento incorrecto','Mejora el color del fluido','Reduce el tamaño del neumático','Disminuye la temperatura ambiente'],correct:0,explanation:'La transmisión requiere montaje preciso para evitar daños y fallos.'},
+  {band:'a',tag:'mantenimiento',level:'Alto',points:20,q:'Una verificación final lógica tras intervenir en transmisión es:',options:['Comprobar niveles, fugas y funcionamiento del conjunto','Purgar el sistema ABS','Revisar la presión del aire acondicionado','Desmontar las pastillas de freno'],correct:0,explanation:'Debe comprobarse que todo el sistema queda correcto tras la intervención.'},
+  {band:'a',tag:'embrague',level:'Alto',points:20,q:'El estudio de la transmisión en esta unidad incluye componentes como:',options:['Embrague, caja de cambios, diferencial, árbol y palieres','Radiador, termostato y bomba de agua','Discos, zapatas y servofreno','Alternador, batería y motor de arranque'],correct:0,explanation:'Esos son los principales elementos tratados en la unidad de transmisión.'},
+  {band:'a',tag:'arboles',level:'Alto',points:20,q:'Un trabajo de sustitución de elementos de transmisión debe respetar:',options:['Las especificaciones del fabricante y el procedimiento correcto','La preferencia estética del operario','Solo la rapidez de ejecución','La presión del circuito de frenos'],correct:0,explanation:'La intervención debe seguir siempre el procedimiento y datos del fabricante.'},
+  {band:'a',tag:'mantenimiento',level:'Alto',points:20,q:'Una actuación profesional sobre transmisión incluye también:',options:['Dejar el puesto limpio, ordenado y con útiles revisados','Guardar piezas sin identificar','No comprobar el resultado final','Saltar medidas de seguridad'],correct:0,explanation:'La profesionalidad incluye seguridad, orden y revisión final del trabajo.'},
+  {band:'a',tag:'embrague',level:'Alto',points:20,q:'La finalidad global de la transmisión en el vehículo es:',options:['Hacer llegar el movimiento del motor a las ruedas en condiciones útiles','Regular la temperatura del refrigerante','Aumentar la capacidad del depósito','Accionar el limpiaparabrisas'],correct:0,explanation:'La transmisión adapta y transmite el movimiento hacia las ruedas motrices.'},
+  {band:'a',tag:'mantenimiento',level:'Alto',points:20,q:'Cuando se revisan aceites de caja y diferencial, además del nivel debe valorarse:',options:['Su estado y la posible existencia de fugas','La presión del neumático de repuesto','La posición del volante','La intensidad de las luces'],correct:0,explanation:'No basta con el nivel: el estado del lubricante y la estanqueidad también son importantes.'}
+],
+
+// ════════════════════════════════════════════════════════════════════════════
+ud9:[
+  // BÁSICO (8 preguntas)
+  {band:'b',tag:'elementos',level:'Básico',points:10,q:'¿Cuál es la función principal del sistema de frenos?',options:['Reducir la velocidad o detener el vehículo','Aumentar la potencia del motor','Refrigerar el radiador','Filtrar el combustible'],correct:0,explanation:'El sistema de frenos permite disminuir velocidad, detener e inmovilizar el vehículo.'},
+  {band:'b',tag:'elementos',level:'Básico',points:10,q:'¿Qué elemento roza con el disco para frenar en un sistema de freno de disco?',options:['Pastillas','Palieres','Silentblocks','Bujías'],correct:0,explanation:'Las pastillas presionan el disco para generar frenado por rozamiento.'},
+  {band:'b',tag:'elementos',level:'Básico',points:10,q:'En un freno de tambor, los elementos de fricción más característicos son:',options:['Zapatas','Pistones del motor','Segmentos','Rótulas'],correct:0,explanation:'Las zapatas actúan contra el interior del tambor en este tipo de freno.'},
+  {band:'b',tag:'hidraulico',level:'Básico',points:10,q:'El líquido de frenos se utiliza en el sistema de accionamiento:',options:['Hidráulico','Eléctrico puro','Neumático de turismos','Mecánico por cadena'],correct:0,explanation:'El sistema de frenos habitual en turismo transmite esfuerzo mediante líquido hidráulico.'},
+  {band:'b',tag:'elementos',level:'Básico',points:10,q:'¿Qué componente gira solidario con la rueda en un freno de disco?',options:['Disco','Volante motor','Radiador','Filtro'],correct:0,explanation:'El disco gira con la rueda y recibe la presión de las pastillas.'},
+  {band:'b',tag:'hidraulico',level:'Básico',points:10,q:'Una comprobación básica del sistema de frenos es revisar:',options:['El nivel del líquido de frenos','El octanaje del combustible','La temperatura del alternador','La altura del vehículo'],correct:0,explanation:'El nivel del líquido de frenos es una comprobación básica y necesaria.'},
+  {band:'b',tag:'sustitucion',level:'Básico',points:10,q:'Las pastillas de freno son elementos que pueden requerir:',options:['Sustitución por desgaste','Rectificado del cigüeñal','Carga eléctrica','Equilibrado del árbol de levas'],correct:0,explanation:'Las pastillas son elementos de desgaste del sistema de frenos.'},
+  {band:'b',tag:'elementos',level:'Básico',points:10,q:'El freno de estacionamiento sirve para:',options:['Mantener el vehículo inmovilizado','Enfriar las ruedas','Regular la mezcla de combustible','Filtrar el aire'],correct:0,explanation:'Su misión es inmovilizar el vehículo, especialmente cuando está parado.'},
+  // MEDIO (16 preguntas)
+  {band:'m',tag:'hidraulico',level:'Medio',points:15,q:'Tras una intervención en frenos, es importante comprobar:',options:['La ausencia de fugas','El color del salpicadero','La presión del lavaparabrisas','El nivel de aceite del motor'],correct:0,explanation:'La estanqueidad del circuito es una verificación esencial en frenos.'},
+  {band:'m',tag:'elementos',level:'Medio',points:15,q:'ABS es un sistema relacionado con:',options:['La seguridad de frenado','La refrigeración','La transmisión automática','La iluminación interior'],correct:0,explanation:'El ABS ayuda a mantener control durante la frenada evitando bloqueo de ruedas.'},
+  {band:'m',tag:'sustitucion',level:'Medio',points:15,q:'Una sustitución de zapatas o pastillas debe hacerse siguiendo:',options:['Las especificaciones del fabricante','La costumbre del operario','Solo el color de la pieza','El criterio del alumno sin guía'],correct:0,explanation:'El procedimiento y las especificaciones del fabricante son obligatorios.'},
+  {band:'m',tag:'hidraulico',level:'Medio',points:15,q:'Si el nivel del líquido de frenos es insuficiente, una consecuencia posible es:',options:['Funcionamiento anómalo o inseguro del sistema','Mayor potencia del motor','Mejor suspensión','Más capacidad de batería'],correct:0,explanation:'Un nivel incorrecto compromete el funcionamiento del sistema de frenos.'},
+  {band:'m',tag:'sustitucion',level:'Medio',points:15,q:'Los discos y tambores de freno son componentes que pueden requerir:',options:['Sustitución según desgaste y procedimiento','Purgado eléctrico','Carga de gas','Equilibrado del volante'],correct:0,explanation:'Discos y tambores deben sustituirse cuando el procedimiento o el desgaste lo indiquen.'},
+  {band:'m',tag:'elementos',level:'Medio',points:15,q:'La servoasistencia en frenos tiene como finalidad principal:',options:['Reducir el esfuerzo necesario para frenar','Refrigerar el disco','Mover el vehículo sin motor','Aumentar el octanaje del combustible'],correct:0,explanation:'La servoasistencia ayuda al conductor a aplicar fuerza de frenado con menor esfuerzo.'},
+  {band:'m',tag:'hidraulico',level:'Medio',points:15,q:'Después de reponer o sustituir líquido de frenos conviene verificar:',options:['Nivel correcto y estanqueidad','Solo el estado del volante','La temperatura del habitáculo','La presión del neumático de repuesto'],correct:0,explanation:'Tras la intervención hay que comprobar nivel y ausencia de fugas.'},
+  {band:'m',tag:'elementos',level:'Medio',points:15,q:'El rozamiento que produce la frenada en el sistema de disco se da entre:',options:['Pastillas y disco','Palier y mangueta','Muelles y amortiguador','Filtro y carcasa'],correct:0,explanation:'La frenada se produce por rozamiento entre pastillas y disco.'},
+  {band:'m',tag:'sustitucion',level:'Medio',points:15,q:'Una operación habitual de mantenimiento básico en frenos es:',options:['Desmontar y montar pastillas o zapatas','Rectificar el cigüeñal','Regular válvulas','Sustituir la correa auxiliar'],correct:0,explanation:'El mantenimiento básico de frenos incluye sustitución de elementos de desgaste.'},
+  {band:'m',tag:'elementos',level:'Medio',points:15,q:'Un freno de tambor se caracteriza por:',options:['Trabajar con zapatas en el interior del tambor','Usar siempre discos ventilados','No necesitar mantenimiento','No emplear rozamiento'],correct:0,explanation:'En el freno de tambor las zapatas actúan sobre la superficie interior del tambor.'},
+  {band:'m',tag:'hidraulico',level:'Medio',points:15,q:'La verificación de fugas en frenos debe realizarse especialmente tras:',options:['Sustituir elementos o intervenir en el circuito','Lavar la carrocería','Cambiar el filtro de aire','Regular el retrovisor'],correct:0,explanation:'Tras intervenir, la comprobación de estanqueidad es obligatoria.'},
+  {band:'m',tag:'elementos',level:'Medio',points:15,q:'El ABS ayuda a evitar principalmente:',options:['El bloqueo de ruedas en la frenada','La descarga de batería','La evaporación del combustible','El desgaste del volante'],correct:0,explanation:'El ABS evita el bloqueo y mejora el control del vehículo al frenar.'},
+  {band:'m',tag:'sustitucion',level:'Medio',points:15,q:'El trabajo sobre frenos debe hacerse con:',options:['Orden, limpieza, precisión y seguridad','Prisas y golpes','Improvisación sin útiles','Cualquier método no documentado'],correct:0,explanation:'Al ser un sistema de seguridad, el trabajo debe ser metódico y preciso.'},
+  {band:'m',tag:'hidraulico',level:'Medio',points:15,q:'El líquido de frenos pertenece al circuito que transmite la fuerza de frenado de forma:',options:['Hidráulica','Mecánica por correa','Térmica','Óptica'],correct:0,explanation:'La fuerza se transmite por presión hidráulica en el circuito.'},
+  {band:'m',tag:'sustitucion',level:'Medio',points:15,q:'Al sustituir pastillas de freno conviene verificar también:',options:['El estado del disco y el correcto montaje de la pinza','Solo el color de las pastillas nuevas','La presión del lavaparabrisas','El nivel del aceite del motor'],correct:0,explanation:'La intervención debe aprovechar para revisar el estado del disco y el conjunto.'},
+  {band:'m',tag:'elementos',level:'Medio',points:15,q:'La pinza de freno tiene la función de:',options:['Presionar las pastillas contra el disco mediante pistones hidráulicos','Enfriar el líquido de frenos','Soportar el amortiguador','Tensar la correa auxiliar'],correct:0,explanation:'La pinza aloja los pistones que presionan las pastillas sobre el disco.'},
+  // ALTO (16 preguntas)
+  {band:'a',tag:'elementos',level:'Alto',points:20,q:'Un sistema de frenos en mal estado puede afectar de forma directa a:',options:['La seguridad del vehículo y la capacidad de detención','El color del aceite','La carga del alternador','La mezcla aire-combustible'],correct:0,explanation:'Los frenos son un sistema esencial de seguridad activa.'},
+  {band:'a',tag:'hidraulico',level:'Alto',points:20,q:'Cuando se verifica el nivel del líquido de frenos, también interesa comprobar:',options:['Su estado y posibles fugas asociadas','El reglaje del embrague','La altura de la antena','La capacidad del maletero'],correct:0,explanation:'La revisión del circuito incluye nivel, estado y estanqueidad.'},
+  {band:'a',tag:'sustitucion',level:'Alto',points:20,q:'La sustitución de discos o tambores debe respetar:',options:['El procedimiento establecido y las especificaciones del fabricante','La forma más rápida aunque no sea correcta','Solo el criterio visual','La presión de los neumáticos traseros'],correct:0,explanation:'Debe seguirse siempre el procedimiento establecido por el fabricante.'},
+  {band:'a',tag:'elementos',level:'Alto',points:20,q:'La servoasistencia no sustituye la necesidad de que el sistema de frenos esté:',options:['En correcto estado mecánico e hidráulico','Con la batería cargada al máximo','Con suspensión nueva','Con aceite recién cambiado'],correct:0,explanation:'La ayuda al frenado no corrige defectos mecánicos o hidráulicos del sistema.'},
+  {band:'a',tag:'hidraulico',level:'Alto',points:20,q:'Una intervención profesional en el circuito de frenos exige terminar con:',options:['Comprobación de ausencia de fugas y funcionamiento correcto','Desmontaje del diferencial','Vaciado del circuito de refrigeración','Sustitución del filtro de aire'],correct:0,explanation:'La verificación final es imprescindible tras intervenir en un sistema de frenos.'},
+  {band:'a',tag:'sustitucion',level:'Alto',points:20,q:'Pastillas, zapatas, discos y tambores forman parte de las operaciones de:',options:['Mantenimiento y sustitución del sistema de frenos','Ajuste de distribución','Engrase del diferencial','Refrigeración del motor'],correct:0,explanation:'Son elementos propios del mantenimiento básico del sistema de frenos.'},
+  {band:'a',tag:'elementos',level:'Alto',points:20,q:'Los sistemas ABS, ASR y ESP se relacionan con:',options:['La seguridad y control del vehículo','La lubricación del motor','La caja de cambios manual','La calefacción del habitáculo'],correct:0,explanation:'Son sistemas electrónicos asociados a estabilidad, tracción y frenado seguro.'},
+  {band:'a',tag:'hidraulico',level:'Alto',points:20,q:'Si tras una reparación de frenos aparece una fuga, lo correcto es:',options:['No dar la intervención por válida hasta corregirla','Entregar el vehículo igualmente','Compensarlo con más presión de neumáticos','Anotar la incidencia y no revisarla'],correct:0,explanation:'Una fuga invalida la seguridad del sistema y debe corregirse antes de finalizar.'},
+  {band:'a',tag:'sustitucion',level:'Alto',points:20,q:'Trabajar con pulcritud en frenos es importante porque:',options:['Es un sistema de seguridad y requiere montaje preciso','Mejora el aspecto exterior del coche','Reduce el consumo de combustible automáticamente','Aumenta la cilindrada del motor'],correct:0,explanation:'La limpieza y precisión son esenciales en cualquier operación sobre frenos.'},
+  {band:'a',tag:'elementos',level:'Alto',points:20,q:'El freno de estacionamiento debe considerarse parte del sistema porque:',options:['Contribuye a inmovilizar el vehículo de forma segura','Sustituye al ABS','Acciona el embrague','Refrigera las pastillas'],correct:0,explanation:'Forma parte del sistema general de frenado al inmovilizar el vehículo.'},
+  {band:'a',tag:'hidraulico',level:'Alto',points:20,q:'La comprobación del líquido de frenos no solo responde a mantenimiento, sino también a:',options:['Seguridad de funcionamiento del sistema','Estética del vano motor','Ahorro de combustible instantáneo','Confort acústico del escape'],correct:0,explanation:'El estado del líquido influye directamente en la seguridad del frenado.'},
+  {band:'a',tag:'sustitucion',level:'Alto',points:20,q:'Tras montar elementos de freno, conviene revisar especialmente:',options:['Ajuste, montaje correcto y ausencia de fugas','Solo el color de las llantas','La radio del vehículo','La suspensión trasera aunque no se haya tocado'],correct:0,explanation:'La revisión final debe centrarse en el montaje y el correcto funcionamiento.'},
+  {band:'a',tag:'elementos',level:'Alto',points:20,q:'El objetivo global del sistema de frenos en el vehículo es:',options:['Permitir desacelerar, detener e inmovilizar con seguridad','Aumentar la potencia de tracción','Reducir la temperatura del combustible','Accionar la caja de cambios'],correct:0,explanation:'Ese es el objetivo fundamental de cualquier sistema de frenos.'},
+  {band:'a',tag:'hidraulico',level:'Alto',points:20,q:'El criterio de ausencia de fugas es importante porque confirma:',options:['La estanqueidad del sistema tras la intervención','La alineación del tren delantero','La carga correcta de la batería','La limpieza del filtro de aire'],correct:0,explanation:'Sin estanqueidad no hay garantía de funcionamiento seguro del sistema.'},
+  {band:'a',tag:'sustitucion',level:'Alto',points:20,q:'El mantenimiento de primer nivel de equipos y herramientas de frenos incluye:',options:['Limpieza, cuidado y revisión según especificaciones','Golpearlos para aflojarlos','Guardarlos sucios siempre','Prestarlos sin comprobar su estado'],correct:0,explanation:'Los útiles deben conservarse correctamente para trabajar con seguridad y precisión.'},
+  {band:'a',tag:'elementos',level:'Alto',points:20,q:'En mantenimiento de frenos, actuar con método significa:',options:['Seguir procedimiento, verificar y no omitir comprobaciones finales','Trabajar por intuición','Cambiar piezas sin revisar','Evitar limpiar los útiles'],correct:0,explanation:'La metodología correcta evita errores en un sistema crítico de seguridad.'}
+],
+
+// ════════════════════════════════════════════════════════════════════════════
+// PRUEBA FINAL — 10 preguntas progresivas (nivel 1→10)
+// CORRECCIÓN: de 34 preguntas a exactamente 10, seleccionando las más representativas
+final:[
+  {band:'b',tag:'integracion',level:'Nivel 1',points:10,q:'¿Qué dos grandes sistemas se trabajan en el RA3?',options:['Transmisión y frenos','Refrigeración y encendido','Lubricación y escape','Frenos y suspensión'],correct:0,explanation:'El RA3 se centra en transmisión y frenos.'},
+  {band:'b',tag:'integracion',level:'Nivel 2',points:10,q:'¿Qué elemento acopla y desacopla el motor de la caja de cambios?',options:['El embrague','El diferencial','El ABS','El servofreno'],correct:0,explanation:'El embrague conecta y desconecta motor y caja de cambios.'},
+  {band:'b',tag:'integracion',level:'Nivel 3',points:10,q:'¿Qué elemento del sistema de frenos actúa sobre el interior del tambor?',options:['Las zapatas','Las pastillas','El disco','El diferencial'],correct:0,explanation:'En el freno de tambor las zapatas actúan sobre la superficie interior del tambor.'},
+  {band:'m',tag:'mantenimiento',level:'Nivel 4',points:15,q:'Una comprobación básica de mantenimiento en transmisión y frenos es revisar:',options:['Niveles de fluidos y posibles fugas','La pintura del vehículo','El color del volante','El tapizado del habitáculo'],correct:0,explanation:'La revisión de niveles y estanqueidad es una operación básica de mantenimiento.'},
+  {band:'m',tag:'integracion',level:'Nivel 5',points:15,q:'El diferencial es importante en transmisión porque:',options:['Permite distinta velocidad de giro entre ruedas motrices en curva','Aumenta la presión del líquido de frenos','Sustituye al embrague en las curvas','Refrigera el grupo motopropulsor'],correct:0,explanation:'El diferencial compensa la diferencia de giro, especialmente en curva.'},
+  {band:'m',tag:'seguridad',level:'Nivel 6',points:15,q:'Tras intervenir en el circuito de frenos, la comprobación imprescindible es:',options:['Verificar ausencia de fugas y funcionamiento correcto','Cambiar el filtro de aire','Revisar el nivel de aceite del motor','Comprobar el estado de la radio'],correct:0,explanation:'La estanqueidad y el funcionamiento deben confirmarse antes de dar la intervención por válida.'},
+  {band:'a',tag:'integracion',level:'Nivel 7',points:20,q:'Si una fuga aparece tras una reparación de frenos, lo correcto es:',options:['Corregirla antes de dar la intervención por válida','Entregar el vehículo y esperar a que se consuma','Añadir más presión a los neumáticos','Anotar la incidencia sin corregirla'],correct:0,explanation:'Una fuga compromete la seguridad del sistema y debe corregirse siempre.'},
+  {band:'a',tag:'mantenimiento',level:'Nivel 8',points:20,q:'Una operación profesional en RA3 incluye también:',options:['Ordenar el puesto, cuidar útiles y verificar el resultado','Cambiar piezas no relacionadas','Evitar la limpieza final','No revisar el trabajo realizado'],correct:0,explanation:'La profesionalidad incluye orden, mantenimiento de útiles y comprobación final.'},
+  {band:'a',tag:'seguridad',level:'Nivel 9',points:20,q:'Transmisión y frenos comparten como exigencia común:',options:['Procedimiento correcto, precisión, seguridad y verificación final','No usar herramientas específicas','Intervención sin diagnóstico previo','Rapidez sin comprobar el resultado'],correct:0,explanation:'Ambos sistemas requieren método, seguridad y comprobación del resultado.'},
+  {band:'a',tag:'integracion',level:'Nivel 10',points:25,q:'La transmisión y los frenos son sistemas complementarios porque:',options:['Uno hace llegar el movimiento a las ruedas y el otro lo reduce o detiene de forma segura','Ambos enfrían el motor','Ambos generan electricidad','Uno sustituye al otro en caso de fallo'],correct:0,explanation:'La transmisión lleva el movimiento; los frenos lo reducen o detienen con seguridad.'}
+]
+
+}; // fin questionPools
+
+// ── Renderizado de secciones ──────────────────────────────────────────────────
+function renderQuizSections(){
+  const target=document.getElementById('quizzes');
+  // CORRECCIÓN: mensaje de final dice RA3 (no RA2)
+  target.innerHTML=['ud6','ud9','final'].map(id=>`
+    <section class="section" id="${id}">
+      <div class="section-head"><div>
+        <h2>${unitMeta[id][0]}</h2>
+        <p class="muted">${unitMeta[id][1]}</p>
+      </div></div>
+      <div class="quiz-layout">
+        <aside class="status-box">
+          <h3>Estado ${id==='final'?'final':id.toUpperCase()}</h3>
+          <div class="progress"><div class="bar" id="bar-${id}"></div></div>
+          <p id="progress-${id}">${id==='final'?'Bloqueada hasta completar UD6 y UD9':'Pregunta 1 de 20'}</p>
+          <div class="meta">
+            <span class="pill">⭐ <span id="score-${id}">0</span>/${id==='final'?10:20}</span>
+            ${id!=='final'?`<span class="pill">🔥 <span id="streak-${id}">0</span></span><span class="pill">🪙 <span id="points-${id}">0</span></span>`:''}
+          </div>
+          <button class="btn ${id==='final'?'btn-primary':'btn-secondary'}" id="restart-${id}" style="display:none">
+            Nuevo intento ${id==='final'?'final':id.toUpperCase()}
+          </button>
+        </aside>
+        <div class="quiz-box">
+          <div class="pill" id="level-${id}">${id==='final'?'Bloqueada':'Básico'}</div>
+          <h3 class="question-title" id="question-${id}">${id==='final'?'Completa primero las unidades del RA3 para desbloquear esta prueba final.':''}</h3>
+          <div class="options" id="options-${id}"></div>
+          <div class="feedback" id="feedback-${id}"></div>
+          <div class="reward" id="reward-${id}"></div>
+          <div class="gate-note" id="gate-${id}"></div>
+          <div class="review-box" id="review-${id}"></div>
+        </div>
+      </div>
+    </section>`).join('');
+}
+
+renderQuizSections();
+hydrateResults();
+
+// ── Lógica de desbloqueo ──────────────────────────────────────────────────────
+function passesUnlock(id){const r=globalState.results[id]||defaultResult(); return (r.bestScore>=7)||((r.basicCorrect||0)>=(r.basicTotal||3));}
+function isQuizUnlocked(id){if(id==='ud6') return true; if(id==='final') return unitIds.every(unit=>passesUnlock(unit)); const rule=unlockRules[id]; return !rule||passesUnlock(rule.prev);}
+function gateMessage(id){if(id==='ud6') return 'Bloque inicial disponible.'; if(id==='final') return 'Desbloquea esta prueba logrando al menos 70% o 100% de básicas en UD9, tras superar los bloques anteriores.'; const rule=unlockRules[id]; return rule?rule.label:'Disponible';}
+function attemptsLeft(id){const used=(globalState.results[id]?.attempts)||0; return Math.max(0,maxAttemptsPerBlock-used);}
+function hasAttemptsLeft(id){return attemptsLeft(id)>0;}
+
+// ── Panel global ──────────────────────────────────────────────────────────────
+function updateGlobalPanel(){
+  document.getElementById('global-points').textContent=globalState.points;
+  document.getElementById('global-stars').textContent=globalState.stars;
+  document.getElementById('global-streak').textContent=globalState.bestStreak;
+  // CORRECCIÓN: /2 porque hay 2 unitIds
+  document.getElementById('global-units').textContent=`${globalState.completedUnits.size}/2`;
+  document.getElementById('global-saves').textContent=globalState.saveCount;
+  if(isQuizUnlocked('final')){
+    const lv=document.getElementById('level-final');
+    const qt=document.getElementById('question-final');
+    if(lv) lv.textContent='Desbloqueada';
+    if(qt) qt.textContent='La prueba final del RA3 ya está desbloqueada. Puedes comenzar.';
+  }
+  updateReport();
+}
+
+// ── Insignias ─────────────────────────────────────────────────────────────────
+function unlockBadge(id,score){
+  const badge=document.getElementById('badge-'+id);
+  if(!badge) return;
+  badge.classList.remove('badge-lock');
+  const label=id==='final'?'FINAL':id.toUpperCase();
+  badge.innerHTML=`<h3>${score>=8?'🏆':'✅'} ${label}</h3><p>${score>=8?'Insignia oro conseguida':'Bloque completado'}</p>`;
+}
+function levelLabel(score,total){const r=score/total; if(r>=0.8) return 'Alto'; if(r>=0.5) return 'Medio'; return 'Bajo';}
+
+// ── Informe ───────────────────────────────────────────────────────────────────
+function updateReport(){
+  document.getElementById('report-name').textContent=student.name;
+  const ids=['ud6','ud9','final'];
+  // CORRECCIÓN: r.total||20 (no ||10), mensajes dicen RA3 (no RA1)
+  document.getElementById('report-table').innerHTML=ids.map(id=>{
+    const r=globalState.results[id]||defaultResult(id==='final'?10:20);
+    const label=id==='final'?'Final RA3':id.toUpperCase();
+    const tot=r.total||(id==='final'?10:20);
+    return `<tr><td>${label}</td><td>${r.bestScore||0}/${tot}</td><td>${r.attempts||0}</td><td>${r.lastScore||0}/${tot}</td><td>${(r.attempts||0)?levelLabel(r.bestScore||0,tot):'Pendiente'}</td></tr>`;
+  }).join('');
+  const completed=ids.map(id=>globalState.results[id]).filter(r=>r&&r.attempts);
+  if(!completed.length){document.getElementById('global-diagnosis').innerHTML='<strong>Diagnóstico global:</strong> Cuando el alumno complete pruebas, aquí aparecerá una valoración resumida.'; return;}
+  const avg=completed.reduce((a,b)=>a+((b.bestScore||0)/(b.total||(b===globalState.results['final']?10:20))),0)/completed.length;
+  // CORRECCIÓN: mensajes dicen RA3
+  let msg='Necesita refuerzo general en varios bloques del RA3.';
+  if(avg>=0.8) msg='Buen dominio global del RA3 y capacidad de aplicar procedimientos con seguridad.';
+  else if(avg>=0.5) msg='Progreso adecuado en el RA3, aunque conviene reforzar algunos contenidos.';
+  document.getElementById('global-diagnosis').innerHTML=`<strong>Diagnóstico global:</strong> ${msg}`;
+}
+
+// ── Repaso y resumen ──────────────────────────────────────────────────────────
+function buildReview(id,tagErrors){
+  const source=reviewMessages[id];
+  const sorted=Object.entries(tagErrors).sort((a,b)=>b[1]-a[1]).filter(x=>x[1]>0).slice(0,3);
+  if(!sorted.length) return '<strong>Repaso recomendado:</strong> Muy buen trabajo. Puedes pasar al siguiente bloque.';
+  return `<strong>Repaso recomendado:</strong><ul>${sorted.map(([tag])=>`<li>${source[tag]||'Repasa los contenidos de este bloque.'}</li>`).join('')}</ul>`;
+}
+function buildGateSummary(id,basicCorrect,basicTotal,finalScore,total){
+  const okScore=finalScore>=7; const okBasic=basicCorrect>=basicTotal;
+  const nextIndex=unlockOrder.indexOf(id)+1; const nextId=unlockOrder[nextIndex];
+  if(okScore||okBasic){
+    if(!nextId) return `<strong>Bloque superado.</strong> Has cumplido el criterio de cierre del recorrido.`;
+    return `<strong>Bloque superado.</strong> Has conseguido ${finalScore}/${total} y ${basicCorrect}/${basicTotal} básicas. Ya puedes pasar a ${nextId==='final'?'la prueba final':nextId.toUpperCase()}.`;
+  }
+  return `<strong>Bloque no superado.</strong> Has conseguido ${finalScore}/${total} y ${basicCorrect}/${basicTotal} básicas. Necesitas llegar al 70% o acertar todas las preguntas básicas para desbloquear el siguiente bloque.`;
+}
+
+// ── Motor de quiz ─────────────────────────────────────────────────────────────
+function createQuiz(id){
+  let current=0,score=0,streak=0,points=0,questions=[],tagErrors={},basicCorrect=0,basicTotal=0;
+  // CORRECCIÓN: shuffledOptions declarada en el scope de createQuiz
+  let shuffledOptions=[];
+  const bar=document.getElementById('bar-'+id),
+    progress=document.getElementById('progress-'+id),
+    scoreEl=document.getElementById('score-'+id),
+    streakEl=document.getElementById('streak-'+id),
+    pointsEl=document.getElementById('points-'+id),
+    level=document.getElementById('level-'+id),
+    question=document.getElementById('question-'+id),
+    options=document.getElementById('options-'+id),
+    feedback=document.getElementById('feedback-'+id),
+    reward=document.getElementById('reward-'+id),
+    gate=document.getElementById('gate-'+id),
+    review=document.getElementById('review-'+id),
+    restart=document.getElementById('restart-'+id);
+
+  function prepare(){
+    questions=id==='final'?[...questionPools[id]]:buildSelection(questionPools[id]);
+    current=0; score=0; streak=0; points=0; tagErrors={};
+    basicCorrect=0; basicTotal=questions.filter(q=>q.band==='b').length;
+  }
+
+  // CORRECCIÓN: attemptsState definida
+  function attemptsState(){
+    options.innerHTML=''; feedback.style.display='none'; reward.style.display='none'; review.style.display='none';
+    if(gate){gate.className='gate-note';gate.style.display='block';gate.innerHTML='<strong>Sin intentos disponibles.</strong> Has agotado los 3 intentos de este bloque. Contacta con el profesor.';}
+    progress.textContent='Intentos agotados (0/3)'; level.textContent='Bloqueada';
+    question.textContent='Has agotado los intentos disponibles para este bloque.';
+    restart.style.display='none'; bar.style.width='100%';
+  }
+
+  function lockedState(){
+    options.innerHTML=''; feedback.style.display='none'; reward.style.display='none'; review.style.display='none';
+    if(gate){gate.className='gate-note';gate.style.display='block';gate.innerHTML=`<strong>Bloque bloqueado.</strong> ${gateMessage(id)}`;}
+    progress.textContent=gateMessage(id); level.textContent='Bloqueada';
+    question.textContent=id==='final'?'Completa los bloques anteriores para acceder a la prueba final.':'Primero debes superar el bloque anterior para continuar.';
+    restart.style.display='none'; bar.style.width='0%';
+  }
+
+  function render(){
+    if(!isQuizUnlocked(id)){lockedState(); return;}
+    if(!hasAttemptsLeft(id)&&current===0){attemptsState(); return;}
+    if(gate) gate.style.display='none';
+    const item=questions[current];
+    progress.textContent=`Pregunta ${current+1} de ${questions.length} · Intentos disponibles: ${attemptsLeft(id)}/${maxAttemptsPerBlock}`;
+    bar.style.width=((current/questions.length)*100)+'%';
+    level.textContent=item.level; question.textContent=item.q;
+    options.innerHTML=''; feedback.className='feedback'; feedback.style.display='none';
+    reward.style.display='none'; review.style.display='none'; restart.style.display='none';
+    shuffledOptions=shuffle(item.options.map((opt,i)=>({text:opt,originalIndex:i})));
+    shuffledOptions.forEach((opt,i)=>{
+      const b=document.createElement('button'); b.className='option'; b.textContent=opt.text;
+      b.addEventListener('click',()=>answer(i)); options.appendChild(b);
+    });
+  }
+
+  function answer(selected){
+    const item=questions[current];
+    const correctRenderedIndex=shuffledOptions.findIndex(opt=>opt.originalIndex===item.correct);
+    const btns=[...options.querySelectorAll('.option')];
+    btns.forEach((b,i)=>{
+      b.disabled=true;
+      if(i===correctRenderedIndex){b.style.borderColor='var(--success)';b.style.background='color-mix(in srgb,var(--success) 16%, var(--surface))';}
+      if(i===selected&&i!==correctRenderedIndex){b.style.borderColor='var(--danger)';b.style.background='color-mix(in srgb,var(--danger) 12%, var(--surface))';}
+    });
+    const ok=selected===correctRenderedIndex;
+    if(ok){score++; streak++; points+=item.points; globalState.points+=item.points; if(item.band==='b') basicCorrect++; if(streak>globalState.bestStreak) globalState.bestStreak=streak;}
+    else{streak=0; tagErrors[item.tag]=(tagErrors[item.tag]||0)+1;}
+    scoreEl.textContent=score;
+    if(streakEl) streakEl.textContent=streak;
+    if(pointsEl) pointsEl.textContent=points;
+    feedback.className='feedback '+(ok?'ok':'bad');
+    feedback.style.display='block';
+    feedback.innerHTML=`<strong>${ok?'Correcta':'Incorrecta'}.</strong> ${item.explanation}`;
+    updateGlobalPanel();
+    setTimeout(()=>{current++; if(current<questions.length){render();} else{finish();}},850);
+  }
+
+  function finish(){
+    bar.style.width='100%'; progress.textContent='Prueba completada'; options.innerHTML='';
+    const passed=(score>=7)||(basicCorrect>=basicTotal&&basicTotal>0);
+    const stars=score>=9?3:score>=7?2:score>=5?1:0;
+    question.textContent=passed?'Bloque superado.':'Bloque completado, pero no desbloqueado.';
+    level.textContent=passed?'Superado':'Pendiente';
+    feedback.className='feedback '+(passed?'ok':'bad'); feedback.style.display='block';
+    feedback.innerHTML=`<strong>Puntuación:</strong> ${score}/${questions.length}. Básicas correctas: ${basicCorrect}/${basicTotal}.`;
+    reward.className='reward '+(passed?'ok':'bad'); reward.style.display='block';
+    reward.innerHTML=passed
+      ?`<strong>Desbloqueo conseguido.</strong> Has ganado ${stars} estrella${stars===1?'':'s'} y puedes avanzar. Intentos restantes: ${Math.max(0,maxAttemptsPerBlock-((globalState.results[id]?.attempts||0)+1))}.`
+      :`<strong>Aún no desbloqueado.</strong> Necesitas 70% o acertar todas las preguntas básicas. Intentos restantes: ${Math.max(0,maxAttemptsPerBlock-((globalState.results[id]?.attempts||0)+1))}.`;
+    if(gate){gate.className='gate-note';gate.style.display='block';gate.innerHTML=buildGateSummary(id,basicCorrect,basicTotal,score,questions.length);}
+    review.style.display='block'; review.innerHTML=buildReview(id,tagErrors);
+    restart.style.display='inline-flex';
+    const existing=globalState.results[id]||defaultResult(questions.length);
+    globalState.results[id]={...existing,bestScore:Math.max(existing.bestScore||0,score),lastScore:score,total:questions.length,attempts:(existing.attempts||0)+1,stars:Math.max(existing.stars||0,stars),basicCorrect:Math.max(existing.basicCorrect||0,basicCorrect),basicTotal:basicTotal,unlocked:passed};
+    if(unitIds.includes(id)&&passed){globalState.completedUnits.add(id); unlockBadge(id,score);}
+    // CORRECCIÓN: badge-final se activa al superar la prueba final
+    if(id==='final'&&passed) unlockBadge('final',score);
+    globalState.stars=['ud6','ud9','final'].reduce((acc,key)=>acc+((globalState.results[key]?.stars)||0),0);
+    saveProfile(); updateGlobalPanel(); refreshAll();
+  }
+
+  restart.addEventListener('click',()=>{
+    prepare(); scoreEl.textContent='0';
+    if(streakEl) streakEl.textContent='0';
+    if(pointsEl) pointsEl.textContent='0';
+    restart.style.display='none'; render(); saveProfile();
+  });
+
+  prepare(); render();
+  return {refresh:render};
+}
+
+// ── Inicialización ────────────────────────────────────────────────────────────
+const quizzes={ud6:createQuiz('ud6'),ud9:createQuiz('ud9'),final:createQuiz('final')};
+function refreshAll(){Object.values(quizzes).forEach(q=>q.refresh());}
+window.refreshAll=refreshAll;
+updateGlobalPanel();
+
+// ── Autoload: recuperar perfil automáticamente al cargar ─────────────────────
+(function(){
+  const prefix=storagePrefix+'::';
+  for(let i=0;i<localStorage.length;i++){
+    const key=localStorage.key(i);
+    if(key&&key.startsWith(prefix)){
+      const name=key.slice(prefix.length);
+      if(name&&loadProfileByName(name)){
+        refreshAll();
+        break;
+      }
+    }
+  }
+})();
+
+</script>
+</body>
+</html>
